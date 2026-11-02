@@ -22,6 +22,31 @@ or GitLab: issues in, draft PRs/MRs out, a person in charge.
 - **GitHub and GitLab** alike, and the project keeps working without this
   repo once installed.
 
+**Who does what — the whole team, not only coding**
+
+| Team role | In crewlead |
+|---|---|
+| **PO** (what and why, priorities) | **You.** You approve each issue and plan with `/go`, and you merge. |
+| **PM / SA** (turn a request into clear work) | **Intake agent** (`/issue-new`): finds the real problem behind a request, checks it against your business rules and existing issues, sizes it, and writes acceptance criteria. At most 3 questions a round; never invents a requirement. |
+| **Tech lead** (how to build it) | **Planner agent**: researches the code and writes the plan on the issue. |
+| **Developer** | **Implementor agent**: builds exactly the plan, with tests, as a draft PR. |
+| **Code reviewer / QA** | **Reviewer agent** (fresh context) + CI + the guard job. |
+
+**Built on good ideas from BMAD and Kiro**
+
+- **From [Kiro](https://kiro.dev): steering and light specs.** Project
+  knowledge lives in steering files every agent reads (`product.md`,
+  `tech.md`, `structure.md`). Each small or medium job gets a light spec:
+  requirements in the issue, design and tasks in the plan comment.
+- **From [BMAD](https://github.com/bmad-code-org/BMAD-METHOD): full specs for
+  big work.** A size-L request is not built straight away: a person leads the
+  planning with BMAD (PRD, architecture, stories), each story becomes an
+  issue, and its acceptance criteria are the spec. BMAD's documents win when
+  they disagree with the steering. Plain spec documents work too.
+- **What crewlead adds:** one flow from request to merged PR, on GitHub or
+  GitLab, with a person's approval on record, a different agent reviewing, and
+  CI guards — so both methods run on your real issues and PRs.
+
 Not to be confused with CrewAI: that is a framework for writing multi-agent
 programs. crewlead is a way of working: it puts rules, roles and skills into
 your repository so the coding agents you already use work issue by issue.
