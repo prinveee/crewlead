@@ -1,0 +1,51 @@
+# Managed by crewlead — edit it in the crewlead repo, not here.
+name: Bug
+description: Something does not work as it should.
+labels: ["type:bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should happen
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Device / browser / app
+      placeholder: Chrome 120 on Windows · Safari on iOS 17 · Android app 2.3
+  - type: input
+    id: reference
+    attributes:
+      label: Reference and time
+      description: An order or record id, URL, and when it happened — anything that finds it in logs.
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - Blocks a user from finishing their task
+        - Wrong result or display, has a workaround
+        - Minor / cosmetic
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots or logs

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(git push origin main:*)",
+      "Bash(git push origin master:*)",
+      "Bash(git push origin HEAD:main:*)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(git push --no-verify:*)",
+      "Bash(ALLOW_PUSH_TO_MAIN=1:*)",
+      "Bash(ALLOW_FORCE_PUSH=1:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(git config core.hooksPath:*)"
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+# Managed by crewlead — edit it in the crewlead repo, not here.
+name: Guard
+
+# Rules that must hold for every PR — see .ai/flow/guard.sh.
+# Separate from the project's CI so that adding or removing a waiver label
+# re-runs only this cheap check, not the test suite.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write # `gh label create`
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Script and config come from the BASE commit, so a PR cannot loosen the
+      # rules it is checked against. A change to either is checked by the old
+      # version and takes effect once merged.
+      - name: Check
+        id: guard
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+        run: |
+          from_base() {
+            if git cat-file -e "$BASE_SHA:$1" 2>/dev/null; then
+              git show "$BASE_SHA:$1" > "$2"
+            else
+              cp "$1" "$2"   # the PR that first adds it: nothing older to trust
+            fi
+          }
+          from_base .ai/flow/guard.sh "$RUNNER_TEMP/guard.sh"
+          from_base .ai/project.yml "$RUNNER_TEMP/project.yml"
+          CONFIG="$RUNNER_TEMP/project.yml" bash "$RUNNER_TEMP/guard.sh"
+
+      - name: Ask for a lead review
+        if: always() && steps.guard.outputs.needs_lead_review == 'true' && github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          gh label create needs-lead-review --color B60205 \
+            --description "Touches a protected path — the lead must review" --force -R "$GITHUB_REPOSITORY"
+          gh pr edit "$PR" --add-label needs-lead-review -R "$GITHUB_REPOSITORY"

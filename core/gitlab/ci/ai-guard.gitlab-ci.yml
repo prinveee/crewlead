@@ -1,0 +1,40 @@
+# Managed by crewlead — edit it in the crewlead repo, not here.
+#
+# Rules that must hold for every merge request — see .ai/flow/guard.sh.
+# Use it from the project's .gitlab-ci.yml:
+#
+#   include:
+#     - local: .ai/flow/ci/ai-guard.gitlab-ci.yml
+#
+# Runs in merge request pipelines only. After adding or removing a waiver
+# label (allow-immutable-edit, allow-test-skip, allow-test-removal), re-run the
+# pipeline: GitLab does not start one on a label change.
+
+ai-guard:
+  stage: .pre
+  image: alpine:3.20
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  variables:
+    GIT_DEPTH: "0"
+  before_script:
+    - apk add --no-cache bash git grep gawk >/dev/null
+  script:
+    # Script and config come from the BASE commit, so an MR cannot loosen the
+    # rules it is checked against. A change to either is checked by the old
+    # version and takes effect once merged.
+    - |
+      bash -euo pipefail <<'SH'
+      BASE_SHA="${CI_MERGE_REQUEST_DIFF_BASE_SHA:?not a merge request pipeline}"
+      git cat-file -e "$BASE_SHA" 2>/dev/null || git fetch -q origin "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
+      from_base() {
+        if git cat-file -e "$BASE_SHA:$1" 2>/dev/null; then git show "$BASE_SHA:$1" > "$2"; else cp "$1" "$2"; fi
+      }
+      from_base .ai/flow/guard.sh /tmp/guard.sh
+      from_base .ai/project.yml /tmp/project.yml
+      BASE_SHA="$BASE_SHA" HEAD_SHA="$CI_COMMIT_SHA" PR_LABELS="${CI_MERGE_REQUEST_LABELS:-}" \
+        GITHUB_OUTPUT=/tmp/guard.out CONFIG=/tmp/project.yml bash /tmp/guard.sh
+      if grep -qx 'needs_lead_review=true' /tmp/guard.out; then
+        echo "Protected paths touched: add the label needs-lead-review to this MR (the reviewer does it when the flow runs)."
+      fi
+      SH

@@ -1,0 +1,91 @@
+# Managed by crewlead — edit it in the crewlead repo, not here.
+name: Feature
+description: New behaviour. Best written with the intake agent (/issue-new).
+labels: ["type:feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the **problem**, not the solution. The planner adds the technical
+        plan later as a comment. Tip: run `/issue-new` and let the intake agent
+        ask the right questions.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What goes wrong or is missing today, for whom?
+    validations:
+      required: true
+  - type: input
+    id: who
+    attributes:
+      label: Who
+      placeholder: customer / owner / staff / …
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why now
+      description: What does it cost if we don't do it? How often does it happen?
+  - type: textarea
+    id: workaround
+    attributes:
+      label: Workaround today
+  - type: textarea
+    id: success
+    attributes:
+      label: Success looks like
+      description: Something observable or countable.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Testable, one per line, tagged with the business rules it depends on. Given/When/Then or "WHEN … THE SYSTEM SHALL …".
+      value: |
+        - AC-1 [BR-…]: GIVEN … WHEN … THEN …
+    validations:
+      required: true
+  - type: textarea
+    id: design
+    attributes:
+      label: Design
+      description: UI work only. The link to the frame (not just the file) and the states it shows, when there is one. No design is fine — write "agents design it from the existing UI".
+  - type: textarea
+    id: out_of_scope
+    attributes:
+      label: Out of scope
+    validations:
+      required: true
+  - type: textarea
+    id: business_rules
+    attributes:
+      label: Business rules check
+      description: Each business rule (by ID) and decision in tech.md this touches — fine / needs care / conflicts / changes the rule.
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options: [P1 — now, P2 — soon, P3 — someday]
+    validations:
+      required: true
+  - type: dropdown
+    id: size
+    attributes:
+      label: Size
+      description: L = needs a decision only a person can make, or more than one PR → needs a spec.
+      options: [S, M, L, not sure]
+    validations:
+      required: true
+  - type: textarea
+    id: agreed
+    attributes:
+      label: Agreed so far
+      description: Answers already given (who, when). Agents never ask these again.
+  - type: textarea
+    id: assumptions
+    attributes:
+      label: Assumptions and open questions
+      description: Mark each assumption [assumption].

@@ -1,0 +1,19 @@
+queued	ai	1D76DB	Queued for the AI planner
+awaiting_approval	ai:awaiting-approval	FBCA04	Plan posted — waiting for the person's /go
+implementing	ai:implementing	0E8A16	Implementor is building
+in_review	ai:in-review	5319E7	Draft PR open — CI and reviewer running
+ready	ai:ready	0E8A16	Reviewer passed — waiting for the person to merge
+blocked	ai:blocked	B60205	An agent stopped and asked a question
+lead_review	needs-lead-review	B60205	Touches a protected path — the lead must review
+-	type:bug	D73A4A	Something does not work as it should
+-	type:feature	A2EEEF	New behaviour
+-	type:chore	CFD3D7	Maintenance with no behaviour change
+-	size:S	C2E0C6	A few files, one concern
+-	size:M	FEF2C0	One PR, several files or layers
+-	size:L	F9D0C4	Needs a person's decision or more than one PR — write a spec (BMAD or specs.docs)
+-	bmad	BFD4F2	Tracks a BMAD story; the story file is the spec
+-	owner-task	FEF2C0	Only a person can do this (accounts, secrets, contacting someone)
+-	ops	C5DEF5	Operations / deploy / infrastructure task for a person
+-	allow-immutable-edit	E99695	A person accepts editing a committed immutable file
+-	allow-test-skip	E99695	A person accepts a skipped or focused test
+-	allow-test-removal	E99695	A person accepts fewer test cases
