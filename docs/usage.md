@@ -30,6 +30,10 @@ ln -s "$PWD/bin/crewlead" ~/.local/bin/crewlead
 
 ## 2. Add crewlead to a project (once per project)
 
+Pick the case that fits you.
+
+### A. You already have a project
+
 ```bash
 cd my-project
 crewlead init --labels     # copies the flow in and creates the labels
@@ -63,8 +67,36 @@ Check what is still missing at any time:
 crewlead check
 ```
 
-Commit the new files. Teammates do not need crewlead installed; the project
-now carries everything.
+Commit the new files on a branch and open a PR. Teammates do not need
+crewlead installed; the project now carries everything.
+
+### B. You are starting a new project
+
+There is no code to read yet, so the crew learns the project by asking you.
+
+```bash
+mkdir my-app && cd my-app && git init
+gh repo create my-app --private --source . --push   # or create it on GitLab
+crewlead init --labels
+```
+
+Then run `/project-setup` in your agent. With no code, it asks instead of
+reading: what the product is and for whom, the business rules you already
+know, and the stack you plan to use. It writes `product.md`, `tech.md` and
+the business rules from your answers; the code map and the commands wait
+until there is code.
+
+Then let the crew build the start for you, like any other job:
+
+```
+/issue-new scaffold a Next.js app with a login page and a test setup
+/issue-plan 1      →  read the plan, comment /go on issue #1
+/issue-plan 1 go   →  draft PR with the scaffold
+```
+
+Once that PR is merged, run `/project-setup` again: now it reads the real
+code and fills in the commands, test files and code map. From here on, it is
+case A.
 
 ## 3. Daily work
 

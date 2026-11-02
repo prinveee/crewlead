@@ -18,6 +18,17 @@ command -v crewlead || cat "$(git rev-parse --git-path crewlead-source)"   # how
 Run setup again any time: on a filled-in project, review what is there
 against the code instead of starting over, and propose only the differences.
 
+**A new project with little or no code yet** (`kind: unknown` in
+`.ai/project.yml`, only a README or nothing): there is nothing to read, so
+ask instead, at most 3 questions a round. Ask what the product is and for
+whom, the first few business rules the person already knows, and the stack
+they plan to use. Write `product.md` and the business rules from their answers,
+`tech.md` from the planned stack (each choice marked `[assumption]` until code
+exists), and leave `structure.md` and the empty `commands` for later. Tell the
+person the next step: ask for the first scaffold with `issue-new`, and run
+setup again once that code is merged, so it fills in the commands, test files
+and code map.
+
 ## 2. Read the repository
 
 Read before you ask. Gather facts, and keep the file each one came from.

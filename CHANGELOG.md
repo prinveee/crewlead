@@ -9,7 +9,7 @@
 ## 0.4.0
 - Detect Django and repos with several parts (`backend/` + `web/`, `apps/*`, `services/*`).
 - Scoped local tests: `commands.test_local` placeholders filled in by the planner.
-- Plain spec folders (`specs.docs`) next to BMAD stories.
+- Plain spec folders (`specs.docs`) for large work.
 - `solo: true` lets a team of one approve their own work.
 - Setup asks about designs and respects them where they exist.
 - `agents` in `.ai/project.yml` chooses which agent plays each role.

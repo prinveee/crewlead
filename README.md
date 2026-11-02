@@ -32,20 +32,13 @@ or GitLab: issues in, draft PRs/MRs out, a person in charge.
 | **Developer** | **Implementor agent**: builds exactly the plan, with tests, as a draft PR. |
 | **Code reviewer / QA** | **Reviewer agent** (fresh context) + CI + the guard job. |
 
-**Built on good ideas from BMAD and Kiro**
+**The right amount of spec for the size of the job**
 
-- **From [Kiro](https://kiro.dev): steering and light specs.** Project
-  knowledge lives in steering files every agent reads (`product.md`,
-  `tech.md`, `structure.md`). Each small or medium job gets a light spec:
-  requirements in the issue, design and tasks in the plan comment.
-- **From [BMAD](https://github.com/bmad-code-org/BMAD-METHOD): full specs for
-  big work.** A size-L request is not built straight away: a person leads the
-  planning with BMAD (PRD, architecture, stories), each story becomes an
-  issue, and its acceptance criteria are the spec. BMAD's documents win when
-  they disagree with the steering. Plain spec documents work too.
-- **What crewlead adds:** one flow from request to merged PR, on GitHub or
-  GitLab, with a person's approval on record, a different agent reviewing, and
-  CI guards — so both methods run on your real issues and PRs.
+- **Small and medium jobs** get a light spec: the requirements are in the
+  issue, the design and tasks in the plan comment.
+- **Big jobs** (size L) are not built straight away: a person leads the
+  planning into a spec document, splits it into issues, and each issue's
+  acceptance criteria come from that spec.
 
 Not to be confused with CrewAI: that is a framework for writing multi-agent
 programs. crewlead is a way of working: it puts rules, roles and skills into
@@ -54,7 +47,7 @@ your repository so the coding agents you already use work issue by issue.
 ```
 Issue ─► Planner ─► Implementor ─► CI + guard ─► Reviewer (fresh context) ─► you merge
          (claude)      (codex)                      (claude)        ← defaults; `agents` in .ai/project.yml
-  ▲ Intake (Claude) talks with you first        specs (BMAD or docs/specs) for large work, led by you
+  ▲ Intake (Claude) talks with you first        spec documents for large work, led by you
 ```
 
 - **Start here — how to use it:** [`docs/usage.md`](docs/usage.md) ·
@@ -117,9 +110,8 @@ so Claude Code, Codex and Cursor all run the same ones (`AGENTS.md` §10):
 fills it in the plan's Verify with the app or module the change touches, and
 the implementor runs exactly that — never the whole suite.
 
-**Specs for large work.** `specs` in `.ai/project.yml` names where they live:
-`bmad_stories: bmad-output/stories` for BMAD, or `docs: docs/specs` for plain
-spec documents. A size-L request gets a spec there first; the issues that link
+**Specs for large work.** `specs` in `.ai/project.yml` names where they live,
+e.g. `docs: docs/specs`. A size-L request gets a spec there first; the issues that link
 it run in the Story lane, with the spec's acceptance criteria as their spec.
 
 `.ai/flow/check-drift.sh` reports references in the agents' docs that no
