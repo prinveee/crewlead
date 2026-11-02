@@ -8,6 +8,11 @@ or GitLab: issues in, draft PRs/MRs out, a person in charge.
 
 **Why this and not another AI workflow?**
 
+- **It learns your project first.** Setup reads your code, docs, CI and
+  commit history, and writes down what every agent must know: the stack, where
+  new code goes, your business rules (each with an ID and where it came from).
+  It never invents a rule, marks every guess as an assumption, and asks you to
+  confirm. Every agent then starts each job already knowing the project.
 - **Any agent, any role.** Claude Code, Codex and Cursor run the same skills;
   you choose who plans, builds and reviews in one setting.
 - **A second pair of eyes.** The reviewer starts from a fresh context, and by

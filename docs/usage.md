@@ -41,9 +41,23 @@ Then open your agent in the project and run the skill:
 /project-setup
 ```
 
-It reads your code and docs, drafts what the agents need to know (the
-product, the tech, where code lives, your business rules) and asks you to
-confirm. Check what is still missing at any time:
+This is where the crew learns your project. It reads the code, README, docs,
+CI files and the last commits, then drafts four short files:
+
+| File | What the agents learn from it |
+|---|---|
+| `.ai/steering/product.md` | What the product is, who uses it, the rules every change must respect |
+| `.ai/steering/tech.md` | The stack and versions, decisions already made, what must never run locally |
+| `.ai/steering/structure.md` | Where the code lives, where new things go (with a real file to copy) |
+| `.ai/business-rules.md` | Every business rule, with an ID (`BR-ORDER-01`) and where it came from |
+
+It never invents a rule: anything it guessed is marked `[assumption]`, and
+it asks you at most three questions at a time. Nothing is written until you
+approve. The files become part of `AGENTS.md`, so every agent reads them at
+the start of every job. Run `/project-setup` again later and it only proposes
+what changed.
+
+Check what is still missing at any time:
 
 ```bash
 crewlead check
