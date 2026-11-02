@@ -152,7 +152,29 @@ A reviewer that is a different agent from the implementor catches more.
 - **Protected paths:** changes there need a `/go` from someone in `approvers`
   other than the person driving the work.
 
-## 7. Keep it up to date
+## 7. Make it yours
+
+Everything runs locally: files in your repository, your agents, your CI. No
+service or account. crewlead gives the direction; you set the details.
+
+| You want to change… | Where |
+|---|---|
+| Files that must never be edited (e.g. migrations) | `immutable_paths` in `.ai/project.yml` |
+| Files that need a lead's review (auth, payments, deploy…) | `protected_paths` |
+| Commands for lint, tests and build | `commands` |
+| Who may approve; working alone | `approvers`, `solo` |
+| Which agent plays each role | `agents` |
+| Label names, to match your board | `labels` |
+| What the agents know and must respect | `.ai/steering/*.md`, the business rules file |
+| Extra rules for one folder | an `AGENTS.md` inside that folder |
+| Extra skills of your own | `.agents/skills/<name>/` — crewlead keeps them |
+
+The guard in CI reads its rules from `.ai/project.yml`, so changing those
+lists changes what it checks. `crewlead update` replaces only crewlead's own
+files (`.ai/flow/`, the generated `AGENTS.md`, its skills and templates);
+everything in the table above stays as you left it.
+
+## 8. Keep it up to date
 
 ```bash
 cd my-project

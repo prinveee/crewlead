@@ -149,7 +149,29 @@ solo: true        # ทำคนเดียว? ให้อนุมัติ�
 - **protected paths:** การแก้ไฟล์กลุ่มนี้ต้องได้ `/go` จากคนใน `approvers`
   ที่ไม่ใช่คนที่กำลังทำงานนั้นอยู่
 
-## 7. อัปเดต
+## 7. ปรับให้เป็นของคุณ
+
+ทุกอย่างทำงานบนเครื่องของคุณ: เป็นไฟล์ใน repo ของคุณ, ใช้ agent และ CI ของคุณ
+ไม่มี service และไม่ต้องสมัคร account crewlead กำหนดทิศทางที่ควรเป็น
+ส่วนรายละเอียดคุณปรับเองได้
+
+| อยากเปลี่ยน… | แก้ที่ไหน |
+|---|---|
+| ไฟล์ที่ห้ามแก้เด็ดขาด (เช่น migration) | `immutable_paths` ใน `.ai/project.yml` |
+| ไฟล์ที่ต้องให้ lead ตรวจ (auth, payment, deploy…) | `protected_paths` |
+| คำสั่ง lint, test, build | `commands` |
+| ใครอนุมัติได้, ทำงานคนเดียว | `approvers`, `solo` |
+| agent ตัวไหนเล่นบทไหน | `agents` |
+| ชื่อ label ให้ตรงกับ board ของคุณ | `labels` |
+| สิ่งที่ agent ต้องรู้และต้องเคารพ | `.ai/steering/*.md` และไฟล์ business rules |
+| กฎเพิ่มสำหรับบางโฟลเดอร์ | วาง `AGENTS.md` ไว้ในโฟลเดอร์นั้น |
+| skill ของคุณเอง | `.agents/skills/<ชื่อ>/` (crewlead เก็บไว้ให้ ไม่ลบ) |
+
+guard ใน CI อ่านกฎจาก `.ai/project.yml` ถ้าแก้รายการในไฟล์นั้น สิ่งที่ guard ตรวจก็เปลี่ยนตาม
+`crewlead update` เขียนทับเฉพาะไฟล์ของ crewlead เอง (`.ai/flow/`, `AGENTS.md`
+ที่สร้างให้, skill และ template ของ crewlead) ทุกอย่างในตารางข้างบนคงอยู่เหมือนเดิม
+
+## 8. อัปเดต
 
 ```bash
 cd my-project

@@ -21,6 +21,12 @@ or GitLab: issues in, draft PRs/MRs out, a person in charge.
   plans and merge. A guard job and pre-push hook keep protected paths safe.
 - **GitHub and GitLab** alike, and the project keeps working without this
   repo once installed.
+- **Local, and yours to shape.** No service, no account, no server: it is
+  plain files in your repository, run by your agents and your CI. crewlead
+  sets the direction — the roles, the gates, the safety nets — and you tune
+  it: which paths are locked or need a lead, your commands and tests, who
+  approves, which agent plays which role, your own extra skills and rules.
+  Updates never overwrite what is yours.
 
 **Who does what — the whole team, not only coding**
 
