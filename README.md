@@ -27,6 +27,8 @@ Issue ─► Planner ─► Implementor ─► CI + guard ─► Reviewer (fresh
   ▲ Intake (Claude) talks with you first        specs (BMAD or docs/specs) for large work, led by you
 ```
 
+- **Start here — how to use it:** [`docs/usage.md`](docs/usage.md) ·
+  [ภาษาไทย](docs/usage.th.md)
 - **Rules for every agent:** [`core/AGENTS.base.md`](core/AGENTS.base.md)
 - **The whole method:** [`docs/methodology.th.md`](docs/methodology.th.md)
   (in Thai for now; an English version is on the roadmap)
