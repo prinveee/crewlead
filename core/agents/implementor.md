@@ -72,7 +72,8 @@ gh run view <run-id> --log-failed      # when a check fails
 ```
 
 Fix what CI reports and push again: at most **3 attempts**. Never skip, delete or
-weaken a test to get green. Still red after 3: comment the stop report
+weaken a test to get green, and never add a waiver label (`allow-*`) to get the
+guard green: that is a person's call (AGENTS.md §6). Still red after 3: comment the stop report
 (Done / Stuck on / Decision needed), add `ai:blocked`, report to the planner,
 and stop.
 

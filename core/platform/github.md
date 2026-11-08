@@ -13,6 +13,7 @@ for `gh` and apply as they are. A change request is a **pull request (PR)**.
 | Comment on an issue | `gh issue comment <n> --body-file <f>` |
 | Move labels | `gh issue edit <n> --add-label <a> --remove-label <b>` |
 | Can a user see the repo | `gh api repos/{owner}/{repo}/collaborators/<user>` (204 = yes) |
+| Can a user approve (write access) | `gh api repos/{owner}/{repo}/collaborators/<user>/permission --jq .permission` → `admin` or `write` = yes; anything else, or an error = no |
 | Change request for a branch | `gh pr list --head <branch>` |
 | Open a draft change request | `gh pr create --draft --title "<t>" --body-file <f>` |
 | Read it, its diff, its checks | `gh pr view <pr> --comments` · `gh pr diff <pr>` · `gh pr checks <pr>` |

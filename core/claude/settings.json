@@ -10,7 +10,15 @@
       "Bash(ALLOW_PUSH_TO_MAIN=1:*)",
       "Bash(ALLOW_FORCE_PUSH=1:*)",
       "Bash(gh pr merge:*)",
-      "Bash(git config core.hooksPath:*)"
+      "Bash(git config core.hooksPath:*)",
+      "Bash(gh *allow-immutable-edit*)",
+      "Bash(gh *allow-test-skip*)",
+      "Bash(gh *allow-test-removal*)",
+      "Bash(glab *allow-immutable-edit*)",
+      "Bash(glab *allow-test-skip*)",
+      "Bash(glab *allow-test-removal*)",
+      "Bash(gh *--remove-label*needs-lead-review*)",
+      "Bash(glab *--unlabel*needs-lead-review*)"
     ]
   }
 }

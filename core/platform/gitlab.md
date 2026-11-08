@@ -16,6 +16,7 @@ same in an MR description. GitLab issue numbers are the project's `iid`.
 | Comment on an issue | `gh issue comment` | `glab issue note <n> --message "$(cat <f>)"` |
 | Move labels | `gh issue edit --add-label/--remove-label` | `glab issue update <n> --label <a> --unlabel <b>` |
 | Can a user see the project | `gh api …/collaborators/<user>` | `glab api "projects/:id/members/all?query=<user>"` (non-empty = yes) |
+| Can a user approve (write access) | `gh api …/collaborators/<user>/permission` | `glab api "projects/:id/members/all?query=<user>"` → the entry whose `.username` is exactly `<user>` has `.access_level` ≥ 30 (Developer) = yes; no such entry = no |
 | Change request for a branch | `gh pr list --head` | `glab mr list --source-branch <branch>` |
 | Open a draft change request | `gh pr create --draft` | `glab mr create --draft --title "<t>" --description "$(cat <f>)" --source-branch <branch> --target-branch <default_branch> --yes` |
 | Read it, its diff | `gh pr view` · `gh pr diff` | `glab mr view <mr> --comments` · `glab mr diff <mr>` |

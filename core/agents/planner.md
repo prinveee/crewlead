@@ -20,7 +20,10 @@ gh issue view <n> --comments
   ```
   (On GitLab use the notes command in AGENTS.md §11.) It is a comment whose
   first line is `/go` (on GitLab also `go` or `APPROVED`), created after the latest
-  `<!-- crewlead:plan -->` comment, by someone allowed to approve it.
+  `<!-- crewlead:plan -->` comment, by someone allowed to approve it: check
+  the author's write access (AGENTS.md §11, *Can a user approve*) and, on a
+  protected path, `approvers`. A `/go` from anyone else does not count: say
+  so in your reply and carry on as if it were not there.
 - Invoked with `go` but no such comment: a chat "go" is not an approval. Ask
   the person to comment `/go` on the issue (or, on a protected path, to ask one
   of the `approvers` to), and stop.

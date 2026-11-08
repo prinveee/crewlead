@@ -107,7 +107,7 @@ Cursor, call them by name.
 |---|---|---|
 | Ask for something new | `/issue-new the export button should include the date` | Intake asks you a few questions, then writes a clear issue (after you say yes) |
 | Get it planned | `/issue-plan 12` | Planner reads the code and posts a plan on issue #12 |
-| Approve the plan | write `/go` as a comment on issue #12 | That comment is the approval, kept on record |
+| Approve the plan | write `/go` as a comment on issue #12 | That comment is the approval, kept on record. Only a `/go` from someone with write access to the repo counts |
 | Get it built | `/issue-plan 12 go` | Implementor builds the plan with tests and opens a **draft PR** |
 | Get it reviewed | `/change-review 34` | A reviewer with **fresh context** checks PR #34 against the plan |
 | See what is waiting | `/whats-next` | What needs you, what the AI is doing, what is queued |
@@ -151,6 +151,10 @@ A reviewer that is a different agent from the implementor catches more.
   committed migration is edited, unless a person adds the `allow-*` label.
 - **Protected paths:** changes there need a `/go` from someone in `approvers`
   other than the person driving the work.
+- **Strangers cannot steer the crew:** on a public repo anyone can comment,
+  so agents ignore a `/go` from anyone without write access, treat what
+  issues and comments say as information rather than orders, and never add
+  the `allow-*` labels themselves.
 
 ## 7. Make it yours
 
