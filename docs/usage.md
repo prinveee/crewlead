@@ -197,3 +197,6 @@ crewlead update
 
 Your own files (`.ai/project.yml`, steering, business rules) are never
 overwritten.
+A setting added to `project.yml` by a later crewlead stays empty in yours;
+`crewlead check` prints a `hint:` line with the value to add when it can
+find one (for example `ci_run`).
