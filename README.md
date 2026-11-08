@@ -90,6 +90,8 @@ The platform is read from `.ai/project.yml`, else the remote's host, else the
 repo's CI files; if none says, the installer asks (or warns when run without a
 terminal). On GitLab it installs `.gitlab/` templates and a guard job to
 `include:` from `.gitlab-ci.yml`, and agents use `glab` (`AGENTS.md` §11).
+GitLab support is newer: the guard job is tested locally but has not yet run
+on a real GitLab runner. Please open an issue with how it goes.
 
 Setup is two steps:
 

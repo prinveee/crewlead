@@ -9,9 +9,14 @@
 # Runs in merge request pipelines only. After adding or removing a waiver
 # label (allow-immutable-edit, allow-test-skip, allow-test-removal), re-run the
 # pipeline: GitLab does not start one on a label change.
+#
+# Stage `test`, not `.pre`: GitLab does not create a pipeline whose only jobs
+# are in .pre/.post, and in most projects this is the only job that runs for
+# merge requests. If your .gitlab-ci.yml lists `stages:` without `test`, set
+# the stage in your own file:  ai-guard: { stage: <one of yours> }
 
 ai-guard:
-  stage: .pre
+  stage: test
   image: alpine:3.20
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"

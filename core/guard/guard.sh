@@ -83,7 +83,10 @@ fi
 
 if (( ${#test_globs[@]} > 0 )); then
   # 2. No new skipped or focused tests.
-  skip_re='(\b(it|test|describe)\.(skip|only|todo|skipIf|runIf)\b|\b(xit|xdescribe|fit|fdescribe)\(|@pytest\.mark\.skip|\bt\.Skip\()'
+  #    JS/TS: it/test/describe.skip|only|todo, xit, fit … · Python: unittest
+  #    and Django (@skip, @skipIf, @skipUnless, @expectedFailure, self.skipTest),
+  #    pytest (mark.skip/skipif/xfail, pytest.skip/xfail) · Go: t.Skip.
+  skip_re='(\b(it|test|describe)\.(skip|only|todo|skipIf|runIf)\b|\b(xit|xtest|xdescribe|fit|fdescribe)\(|@pytest\.mark\.(skip|xfail)|\bpytest\.(skip|xfail)\(|@(unittest\.)?(skip|skipIf|skipUnless|expectedFailure)\b|\.skipTest\(|\bt\.Skip\()'
   added=$(git diff -U0 "$range" -- "${test_globs[@]}" | grep -E '^\+[^+]' | grep -E "$skip_re" || true)
   if [[ -n "$added" ]]; then
     fail allow-test-skip "Added lines skip or focus tests:

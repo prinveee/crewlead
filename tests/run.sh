@@ -327,6 +327,21 @@ for f in AGENTS.md lib/AGENTS.md CLAUDE.md .agents/skills/x/SKILL.md .cursor/rul
   gitc -C "$G" reset -q --hard HEAD~1
 done
 
+echo "guard.sh: python skips"
+PY=$(new_repo pyskip); mkdir -p "$PY/.ai" "$PY/t"
+printf "test_globs:\n  - '*test_*.py'\ntest_case_regex: '^[[:space:]]*def test_'\n" > "$PY/.ai/project.yml"
+printf 'def test_a():\n    assert 1\n' > "$PY/t/test_a.py"
+gitc -C "$PY" add -A; gitc -C "$PY" commit -qm base; PB=$(git -C "$PY" rev-parse HEAD)
+py_guard() { (cd "$PY" && BASE_SHA="$PB" HEAD_SHA=HEAD GITHUB_OUTPUT=/dev/null bash "$FLOW/core/guard/guard.sh" >/dev/null 2>&1); }
+for s in '@unittest.skip("x")' '@skip("x")' '@skipIf(True, "x")' '@unittest.expectedFailure' \
+         '@pytest.mark.xfail' '@pytest.mark.skipif(True, reason="x")' '    pytest.skip("x")' '    self.skipTest("x")'; do
+  printf '%s\ndef test_a():\n    assert 1\n' "$s" > "$PY/t/test_a.py"; gitc -C "$PY" commit -qam skip
+  if py_guard; then bad "python: guard blocks $s"; else ok "python: guard blocks $s"; fi
+  gitc -C "$PY" reset -q --hard "$PB"
+done
+printf '@skip_cache\ndef test_a():\n    assert 1\n' > "$PY/t/test_a.py"; gitc -C "$PY" commit -qam deco
+if py_guard; then ok "python: a decorator merely named skip_… passes"; else bad "python: a decorator merely named skip_… passes"; fi
+
 echo "gitlab guard job"
 GL=$(new_repo gljob); mkdir -p "$GL/.ai/flow" "$GL/tests"
 cp "$FLOW/core/guard/guard.sh" "$GL/.ai/flow/guard.sh"
@@ -338,6 +353,7 @@ awk '/bash -euo pipefail <<.SH./{f=1;next} /^      SH$/{f=0} f{sub(/^      /,"")
 gljob() { (cd "$GL" && CI_MERGE_REQUEST_DIFF_BASE_SHA="$GB" CI_COMMIT_SHA=$(git rev-parse HEAD) CI_MERGE_REQUEST_LABELS="$1" bash -euo pipefail "$TMP/gljob.sh" >/dev/null 2>&1); }
 if gljob ""; then bad "gitlab job fails when tests are removed"; else ok "gitlab job fails when tests are removed"; fi
 if gljob "x,allow-test-removal"; then ok "gitlab job accepts the waiver label"; else bad "gitlab job accepts the waiver label"; fi
+check "gitlab job is not in .pre (a .pre-only pipeline never runs)" "grep -qx '  stage: test' '$FLOW/core/gitlab/ci/ai-guard.gitlab-ci.yml'"
 
 echo "pre-push"
 H="$FLOW/core/hooks/pre-push"; P=$(new_repo push); Z=0000000000000000000000000000000000000000
@@ -350,6 +366,11 @@ if hp "refs/heads/x $S2 refs/heads/main $S1" "ALLOW_PUSH_TO_MAIN=1"; then ok "pe
 if hp "refs/heads/ai/1 $S2 refs/heads/ai/1 $S1" ""; then ok "allows fast-forward to ai/*"; else bad "allows fast-forward to ai/*"; fi
 if hp "refs/heads/ai/1 $S2 refs/heads/ai/1 $Z" ""; then ok "allows new ai/* branch"; else bad "allows new ai/* branch"; fi
 if hp "refs/heads/ai/1 $S3 refs/heads/ai/1 $S2" ""; then bad "blocks force push"; else ok "blocks force push"; fi
+mkdir -p "$P/.ai"; printf "default_branch: 'develop'   # from detection\n" > "$P/.ai/project.yml"
+if hp "refs/heads/x $S2 refs/heads/develop $S1" ""; then bad "blocks push to the project's default branch (develop)"; else ok "blocks push to the project's default branch (develop)"; fi
+if hp "refs/heads/x $S2 refs/heads/main $S1" ""; then bad "still blocks main when default is develop"; else ok "still blocks main when default is develop"; fi
+if hp "refs/heads/ai/1 $S2 refs/heads/ai/1 $S1" ""; then ok "still allows ai/* when default is develop"; else bad "still allows ai/* when default is develop"; fi
+rm -rf "$P/.ai"
 
 echo "rename from ai-dev-flow"
 U=$(new_repo old-name); "$FLOW/bin/crewlead" init --platform github "$U" >/dev/null

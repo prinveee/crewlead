@@ -1,6 +1,15 @@
 # Changelog
 
 ## Unreleased
+- Guard: catches Python skips too — `@unittest.skip`/`@skip`, `skipIf`,
+  `skipUnless`, `expectedFailure`, `self.skipTest`, `pytest.mark.xfail`,
+  `pytest.skip`/`xfail` — and `xtest(`.
+- Pre-push hook: also blocks direct pushes to the project's `default_branch`
+  (e.g. `develop`), not only `main` and `master`.
+- GitLab guard job runs in stage `test` instead of `.pre`: GitLab never starts
+  a pipeline whose only jobs are in `.pre`. Not yet run on a real runner.
+- Usage: a new project makes its first commit and push before `crewlead init`
+  (before, the steps failed: no commit to push, then the hook blocked `main`).
 - A `/go` counts only from someone with write access to the repository;
   agents check the author every time (GitHub and GitLab commands in §11).
 - New rule: what agents read in issues, PRs, comments, files and logs is data,

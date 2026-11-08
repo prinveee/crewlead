@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # crewlead pre-push hook — the machine-side stand-in for branch protection
 # (GitHub Free has none on private repos). Blocks, for people and agents alike:
-#   - any push to the default branch (main/master)
+#   - any push to main, master, or the project's default_branch
+#     (.ai/project.yml, e.g. develop)
 #   - any force push (remote branch not an ancestor of what is pushed)
 # A person who really means it: ALLOW_PUSH_TO_MAIN=1 / ALLOW_FORCE_PUSH=1.
 # Agents are forbidden to set either (AGENTS.md §6).
@@ -10,10 +11,14 @@ set -euo pipefail
 zero=0000000000000000000000000000000000000000
 status=0
 
+top="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+default_branch="$(sed -n "s/^default_branch:[[:space:]]*['\"]\{0,1\}\([^'\" #]*\).*/\1/p" "$top/.ai/project.yml" 2>/dev/null | head -1 || true)"
+default_ref="refs/heads/${default_branch:-main}"
+
 while read -r local_ref local_sha remote_ref remote_sha; do
   [[ -z "${remote_ref:-}" ]] && continue
   case "$remote_ref" in
-    refs/heads/main|refs/heads/master)
+    refs/heads/main|refs/heads/master|"$default_ref")
       if [[ "${ALLOW_PUSH_TO_MAIN:-}" != "1" ]]; then
         echo "crewlead: push to ${remote_ref#refs/heads/} blocked — open a PR instead." >&2
         echo "             (a person who really means it: ALLOW_PUSH_TO_MAIN=1 git push …)" >&2

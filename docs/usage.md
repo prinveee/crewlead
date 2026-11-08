@@ -75,10 +75,14 @@ crewlead installed; the project now carries everything.
 There is no code to read yet, so the crew learns the project by asking you.
 
 ```bash
-mkdir my-app && cd my-app && git init
-gh repo create my-app --private --source . --push   # or create it on GitLab
+mkdir my-app && cd my-app && git init -b main
+echo "# my-app" > README.md && git add README.md && git commit -m "Start my-app"
+gh repo create my-app --private --source . --push   # or create it on GitLab and push
 crewlead init --labels
 ```
+
+The first commit goes in before `crewlead init`: after it, the pre-push hook
+blocks direct pushes to `main`, and every change goes through a PR.
 
 Then run `/project-setup` in your agent. With no code, it asks instead of
 reading: what the product is and for whom, the business rules you already
