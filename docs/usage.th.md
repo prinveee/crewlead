@@ -24,7 +24,7 @@
 และ coding agent อย่างน้อยหนึ่งตัว (Claude Code, Codex CLI หรือ Cursor)
 
 ```bash
-git clone https://github.com/anotherpart/crewlead.git && cd crewlead
+git clone https://github.com/prinveee/crewlead.git && cd crewlead
 ln -s "$PWD/bin/crewlead" ~/.local/bin/crewlead
 ```
 

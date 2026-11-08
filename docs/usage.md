@@ -24,7 +24,7 @@ You need: git, bash, jq, `gh` (GitHub) or `glab` (GitLab), logged in, and at
 least one coding agent (Claude Code, Codex CLI or Cursor).
 
 ```bash
-git clone https://github.com/anotherpart/crewlead.git && cd crewlead
+git clone https://github.com/prinveee/crewlead.git && cd crewlead
 ln -s "$PWD/bin/crewlead" ~/.local/bin/crewlead
 ```
 
