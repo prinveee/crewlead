@@ -136,6 +136,14 @@ check "crewlead check fails while something is missing" "! (cd '$A' && '$FLOW/bi
 E=$(new_repo empty-chk)
 out=$("$FLOW/bin/crewlead" check "$E" 2>&1 || true)
 check "crewlead check on a repo without the flow says so" "grep -q 'not installed' <<<\"\$out\""
+mkdir -p "$A/.github/workflows"; printf 'on:\n  pull_request:\n  workflow_dispatch:\n' > "$A/.github/workflows/ci.yml"
+sed -i.bak 's/^ci_run:.*/ci_run: ""   # none found/' "$A/.ai/project.yml"; rm -f "$A/.ai/project.yml.bak"
+out=$(cd "$A" && "$FLOW/bin/crewlead" check 2>&1 || true)
+check "crewlead check hints a ci_run an older project.yml lacks" "grep -q 'hint: ci_run is empty.*ci_run: gh workflow run ci.yml --ref <branch>' <<<\"\$out\""
+n_hint=$(grep -c '^  ! ' <<<"$out" || true)
+sed -i.bak 's/^ci_run:.*/ci_run: gh workflow run ci.yml --ref <branch>/' "$A/.ai/project.yml"; rm -f "$A/.ai/project.yml.bak"
+out=$(cd "$A" && "$FLOW/bin/crewlead" check 2>&1 || true)
+check "crewlead check: no hint once ci_run is set, and the hint is not a problem" "! grep -q 'hint: ci_run' <<<\"\$out\" && [[ \$(grep -c '^  ! ' <<<\"\$out\" || true) == $n_hint ]]"
 check "unknown crewlead command fails" "! '$FLOW/bin/crewlead' frobnicate >/dev/null 2>&1"
 O=$(new_repo old-skills); mkdir -p "$O/.agents/skills/flow-plan" "$O/.claude/skills" "$O/.agents/skills/flow-mine"
 printf -- '---\nname: flow-plan\ndescription: x\n---\n<!-- Managed by crewlead -->\n' > "$O/.agents/skills/flow-plan/SKILL.md"

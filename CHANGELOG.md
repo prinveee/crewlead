@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.3
+- `crewlead check` notices a setting that a later crewlead added to
+  `.ai/project.yml` but your file still lacks. `project.yml` is written once, at
+  `init`, so a project updated from 0.5.1 kept `ci_run` empty and `check` said
+  "ok" (seen on a real project). When `ci_run` is empty and detection finds a
+  value, `check` prints `hint: ci_run is empty …` with the line to add. A hint
+  is not a problem: `check` still passes, since empty is a valid choice.
+
 ## 0.5.2
 - Planner checks two things before it posts a plan (seen on a real project,
   where each miss cost a re-plan). **Red, then green, can be shown:** every new

@@ -90,6 +90,13 @@ case "$cmd" in
       flag "the guard is not in .gitlab-ci.yml (include: .ai/flow/ci/ai-guard.gitlab-ci.yml)"
     fi
     if out="$(.ai/flow/check-drift.sh 2>&1)"; then say "$out"; else flag "drift:"; sed 's/^/      /' <<<"$out"; fi
+    # project.yml is written once, so settings added later (ci_run, 0.5.2) stay
+    # empty on older installs. A hint, not a problem: empty is a valid choice.
+    yml_val() { sed -n "s/^$1:[[:space:]]*//p" | head -1 | sed 's/[[:space:]]*#.*//; s/^"\(.*\)"$/\1/; s/^'"'"'\(.*\)'"'"'$/\1/'; }
+    if [[ -z "$(yml_val ci_run < "$cfg" 2>/dev/null)" ]]; then
+      ci_det="$(PLATFORM="$platform" "$CREWLEAD_HOME/core/setup/detect-project.sh" . 2>/dev/null | yml_val ci_run || true)"
+      [[ -n "$ci_det" ]] && say "hint: ci_run is empty — this repo can start CI before a PR exists; add to $cfg: ci_run: $ci_det"
+    fi
     (( problems == 0 )) && echo "ok" || { echo "$problems to fix"; exit 1; }
     ;;
 
