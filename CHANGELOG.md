@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.5.1
 - Guard counts test cases from where the PR branched (the merge-base), not the
   base branch's tip. Before, tests merged into the base after the branch was
   cut made an unrelated PR fail "Test cases went down" (seen on a real project).
