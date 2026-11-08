@@ -11,11 +11,11 @@ Pick the first that applies:
 
 1. **This conversation has no earlier work on this PR or its issue** (it was
    started for this review). You are already fresh: act as the reviewer and
-   follow `.ai/flow/agents/reviewer.md` exactly, under the rules in `AGENTS.md`.
+   follow `.ai/flow/agents/reviewer.md` exactly, under the rules in `AGENTS.md` and `.ai/flow/rules.md`.
 2. **Your tool can start a subagent with an empty context** (Claude Code can).
    Start one with this prompt, and nothing about this conversation:
    > You are the reviewer agent. Follow `.ai/flow/agents/reviewer.md` exactly,
-   > under the rules in `AGENTS.md`, for PR #<pr>. Return the verdict you posted
+   > under the rules in `AGENTS.md` and `.ai/flow/rules.md`, for PR #<pr>. Return the verdict you posted
    > and the route you took.
 
    Then relay its verdict to the person in two or three lines.

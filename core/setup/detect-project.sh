@@ -286,7 +286,7 @@ platform_protected() {
   return 0
 }
 
-# Where specs for large work live (AGENTS.md §3 Large): BMAD story files, or
+# Where specs for large work live (rules.md §3 Large): BMAD story files, or
 # plain spec documents in a folder.
 specs_block() {
   if [[ -d bmad-output ]]; then
@@ -294,7 +294,7 @@ specs_block() {
   elif [[ -d docs/specs ]]; then
     printf '# Large-work specs: one document per spec, each with its acceptance criteria.\nspecs:\n  docs: docs/specs\n'
   else
-    printf '# Large-work specs (AGENTS.md §3): none yet. Uncomment one when you have them.\n# specs:\n#   docs: docs/specs                  # plain spec documents\n#   bmad_stories: bmad-output/stories # or BMAD story files\n'
+    printf '# Large-work specs (rules.md §3): none yet. Uncomment one when you have them.\n# specs:\n#   docs: docs/specs                  # plain spec documents\n#   bmad_stories: bmad-output/stories # or BMAD story files\n'
   fi
 }
 
@@ -322,7 +322,7 @@ name: $name
 default_branch: $default_branch
 
 # Where issues and change requests live: github (gh, pull requests) or gitlab
-# (glab, merge requests). AGENTS.md §11 gives the commands for it.
+# (glab, merge requests). rules.md §11 gives the commands for it.
 platform: $(yaml_value "$platform")
 
 # Commands agents run. test_local is the ONLY test command agents may run on a
@@ -359,7 +359,7 @@ protected_paths:
 $(platform_protected)
 $(yaml_list ${protected[@]+"${protected[@]}"} | grep -v '\[\]')
 
-# Where screens come from (AGENTS.md §5 Designs). none: agents design UI
+# Where screens come from (rules.md §5 Designs). none: agents design UI
 # themselves, following the existing UI. figma (or another tool, with its link):
 # the design is the contract. project-setup asks.
 design: none
@@ -373,7 +373,7 @@ agents:
   implementor: codex
   reviewer: claude
 
-# How agents pass the turn to each other (AGENTS.md §2 Handoffs): auto (Herdr
+# How agents pass the turn to each other (rules.md §2 Handoffs): auto (Herdr
 # when it is running, otherwise the person pastes a short message), herdr, or
 # manual.
 handoff: auto
@@ -386,7 +386,7 @@ language: en
 # Usernames (GitHub or GitLab) who may approve work on a protected path (a /go comment on the
 # issue, and the PR review before merge). Never the developer driving the work
 # or the issue's author: keep at least two people here. A team of one sets
-# solo: true and lists only themselves (see AGENTS.md §4 Approvals).
+# solo: true and lists only themselves (see rules.md §4 Approvals).
 solo: false
 approvers:
   - your-lead-login
