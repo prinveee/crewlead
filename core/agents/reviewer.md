@@ -23,7 +23,7 @@ Read the latest `<!-- crewlead:plan -->` comment, `AGENTS.md` and
 document in `specs.docs`), read it.
 
 Check the approval (rules.md §4 Approvals): an A2 PR links a `/go` comment
-that exists, came after the latest plan, was written by someone with write
+that exists, came after the latest plan or `plan-change` comment, was written by someone with write
 access (rules.md §11, *Can a user approve*) and — on a protected path — by an
 allowed approver. A PR that claims A3 needs an issue written by someone with
 write access. Missing or wrong → **must-fix**: the work was built

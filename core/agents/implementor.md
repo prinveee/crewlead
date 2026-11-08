@@ -15,13 +15,16 @@ Herdr — the planner's pane id. Report back as rules.md §2 Handoffs says.
 Work only inside the given worktree, on branch `ai/<n>-<slug>`.
 
 ```bash
-gh issue view <n> --comments      # the latest <!-- crewlead:plan --> comment is your spec
+gh issue view <n> --comments      # the latest <!-- crewlead:plan --> comment is your spec;
+                                  # <!-- crewlead:plan-change --> comments say what changed in it
 git log --oneline origin/<default_branch>..HEAD   # steps already committed by an earlier run
 gh pr list --head ai/<n>-<slug>   # a PR from an earlier run?
 ```
 
 Read `AGENTS.md` and `.ai/project.yml`. Continue from the first step that is
-not committed yet; never redo finished steps.
+not committed yet; never redo finished steps. After a re-plan, a step a
+`plan-change` comment says changed is not finished, even if committed.
+The approval must come after the latest `plan` or `plan-change` comment.
 
 ## 2. Build, step by step
 
@@ -31,7 +34,9 @@ For each plan step, in order:
 2. For test steps: write the test, run it, and **see it fail** for the right
    reason before writing the code that makes it pass. For a bug, the
    reproduction test must fail on the unfixed code; record the failure output
-   for the PR.
+   for the PR. When the plan has a CI red step (the tests cannot run with
+   `commands.test_local`), do exactly that step: it is the one push allowed
+   before the PR, of the tests-only commit, after the rest of Verify passed.
 3. Run the fast checks exactly as the plan's Verify lists them (`commands.test_local`
    with its placeholder filled in, and friends). A placeholder the plan left
    unfilled is a plan gap: report it, do not run the whole suite instead.

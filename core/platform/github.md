@@ -11,6 +11,7 @@ for `gh` and apply as they are. A change request is a **pull request (PR)**.
 | Search issues | `gh issue list --state all --search "<words>" --limit 20` |
 | Create an issue | `gh issue create --title "<t>" --body-file <f> --label "<a>,<b>"` |
 | Comment on an issue | `gh issue comment <n> --body-file <f>` |
+| Edit a comment | `gh api -X PATCH repos/{owner}/{repo}/issues/comments/<id> -F body=@<f>` (`<id>`: the number after `#issuecomment-` in its URL) |
 | Move labels | `gh issue edit <n> --add-label <a> --remove-label <b>` |
 | Can a user see the repo | `gh api repos/{owner}/{repo}/collaborators/<user>` (204 = yes) |
 | Can a user approve (write access) | `gh api repos/{owner}/{repo}/collaborators/<user>/permission --jq .permission` → `admin` or `write` = yes; anything else, or an error = no |

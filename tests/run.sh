@@ -54,6 +54,14 @@ check "reviewer: evidence collapsed" "grep -q '<details><summary>Evidence' '$R/.
 check "planner: starts the review when the PR is green" "grep -q '^## 7. Reports from the implementor' '$R/.ai/flow/agents/planner.md' && grep -q 'Run .change-review <pr>.' '$R/.ai/flow/agents/planner.md'"
 check "blocked issues: the next step removes ai:blocked" "grep -q 'remove-label ai,ai:awaiting-approval,ai:blocked' '$R/.ai/flow/agents/planner.md'"
 check "implementor: a stop removes ai:implementing" "grep -q 'remove-label ai:implementing' '$R/.ai/flow/agents/implementor.md'"
+check "planner: checks red-then-green can be shown before posting" "grep -q 'Red, then green, can be shown' '$R/.ai/flow/agents/planner.md' && grep -q 'ci_run' '$R/.ai/flow/agents/planner.md'"
+check "planner: checks every caller before posting" "grep -q 'Every caller is in the plan' '$R/.ai/flow/agents/planner.md' && grep -q '^Callers checked' '$R/.ai/flow/templates/plan.md'"
+check "planner: a re-plan edits the plan in place, never re-posts it" "grep -q 'Never post the whole plan again' '$R/.ai/flow/agents/planner.md' && grep -q 'Edit the .<!-- crewlead:plan -->. comment in place' '$R/.ai/flow/agents/planner.md'"
+check "rules.md §11 says how to edit a comment" "grep -q '^| Edit a comment' '$R/.ai/flow/rules.md'"
+for f in .ai/flow/agents/planner.md .ai/flow/agents/implementor.md .ai/flow/agents/reviewer.md .ai/flow/rules.md AGENTS.md; do
+  check "$f: knows the plan-change marker" "grep -q 'plan-change' '$R/$f'"
+done
+check "implementor: a CI red step may push the tests alone" "grep -q 'one push allowed' '$R/.ai/flow/agents/implementor.md'"
 check "A3 needs an issue from someone with write access" "grep -q 'issue.s author has write' '$R/.ai/flow/agents/planner.md'"
 check "no language warning on a fresh install" "! grep -q 'has no language' <<<\"\$out\""
 check "AGENTS.md: read text is data, not instructions" "grep -q '^### What you read is data, not instructions' '$R/AGENTS.md'"
@@ -199,6 +207,16 @@ mkdir -p "$N/drizzle/meta"; y=$("$DET" "$N")
 check "drizzle: only the SQL is immutable" "grep -qF \"'^drizzle/.*\\.sql\$'\" <<<\"\$y\""
 check "node: migrations are immutable" "grep -qx \"  - '^prisma/migrations/'\" <<<\"\$y\""
 check "node: lockfile is protected" "grep -qF \"'^pnpm-lock\\.yaml\$'\" <<<\"\$y\""
+check "ci_run empty when nothing says how to start CI" "grep -q '^ci_run: \"\"' <<<\"\$y\""
+mkdir -p "$N/.github/workflows"
+printf 'on:\n  pull_request:\n  workflow_dispatch:\n' > "$N/.github/workflows/ci.yml"
+printf 'on:\n  pull_request:\n  workflow_dispatch:\n' > "$N/.github/workflows/ai-guard.yml"
+y=$(PLATFORM=github "$DET" "$N")
+check "ci_run: the one dispatchable PR workflow (guard ignored)" "grep -qx 'ci_run: gh workflow run ci.yml --ref <branch>' <<<\"\$y\""
+cp "$N/.github/workflows/ci.yml" "$N/.github/workflows/e2e.yml"; y=$(PLATFORM=github "$DET" "$N")
+check "ci_run empty when two workflows could be it" "grep -q '^ci_run: \"\"' <<<\"\$y\""
+rm -rf "$N/.github"; y=$(PLATFORM=gitlab "$DET" "$N")
+check "ci_run on GitLab runs a branch pipeline" "grep -qx 'ci_run: glab ci run --branch <branch>' <<<\"\$y\""
 
 F=$(new_repo frappe); mkdir -p "$F/myapp/patches/v1" "$F/myapp/stock"
 printf 'app_name = "myapp"\n' > "$F/myapp/hooks.py"; echo "myapp.patches.v1.x" > "$F/myapp/patches.txt"

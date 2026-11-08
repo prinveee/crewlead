@@ -14,6 +14,7 @@ same in an MR description. GitLab issue numbers are the project's `iid`.
 | Search issues | `gh issue list --search` | `glab issue list --all --search "<words>" --per-page 20` |
 | Create an issue | `gh issue create` | `glab issue create --title "<t>" --description "$(cat <f>)" --label "<a>,<b>" --yes` |
 | Comment on an issue | `gh issue comment` | `glab issue note <n> --message "$(cat <f>)"` |
+| Edit a comment | `gh api -X PATCH …/issues/comments/<id>` | `glab api --method PUT "projects/:id/issues/<n>/notes/<note_id>" -F body=@<f>` |
 | Move labels | `gh issue edit --add-label/--remove-label` | `glab issue update <n> --label <a> --unlabel <b>` |
 | Can a user see the project | `gh api …/collaborators/<user>` | `glab api "projects/:id/members/all?query=<user>"` (non-empty = yes) |
 | Can a user approve (write access) | `gh api …/collaborators/<user>/permission` | `glab api "projects/:id/members/all?query=<user>"` → the entry whose `.username` is exactly `<user>` has `.access_level` ≥ 30 (Developer) = yes; no such entry = no |
