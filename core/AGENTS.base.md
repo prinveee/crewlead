@@ -114,7 +114,9 @@ L = anything that needs a decision a person must make, or more than one PR.
 | A4 | Merge. **Never granted.** |
 
 A change that touches a **protected path** (`.ai/project.yml`) is capped at A2
-and is labelled `needs-lead-review`, whatever its lane.
+and is labelled `needs-lead-review`, whatever its lane. So is an issue whose
+author has no write access (§11, *Can a user approve*): someone who may approve
+must accept its text with a `/go` before anything is built.
 
 ### Approvals
 
@@ -262,6 +264,9 @@ board already has (`.ai/project.yml` → `labels`, e.g. `in_review: Currently
 reviewing`): always use the project's name for each state.
 
 An agent that changes the state removes the previous state label in the same step.
+That includes stopping: `ai:blocked` replaces the state the issue was in. The
+agent that picks a blocked issue up again (after a person with write access
+answered on it) removes `ai:blocked` in the step that sets the next state.
 
 ## 9. Branches, commits, PRs
 

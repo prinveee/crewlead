@@ -42,8 +42,9 @@ Stop and report back (AGENTS.md §7) instead of improvising when:
 - an existing test's assertion would have to change;
 - a new dependency is needed.
 
-Comment on the issue what you found and what you propose, add `ai:blocked`,
-then report back to the planner:
+Comment on the issue what you found and what you propose, add `ai:blocked`
+and remove `ai:implementing` (`gh issue edit <n> --add-label ai:blocked
+--remove-label ai:implementing`), then report back to the planner:
 > Issue #<n>: plan step <k> cannot be followed — <why>. Proposal: <…>. Stopped at commit <sha>.
 
 (Herdr: `herdr agent prompt <planner-pane> "<that>"`. Manual: print it and tell
@@ -75,8 +76,8 @@ gh run view <run-id> --log-failed      # when a check fails
 Fix what CI reports and push again: at most **3 attempts**. Never skip, delete or
 weaken a test to get green, and never add a waiver label (`allow-*`) to get the
 guard green: that is a person's call (AGENTS.md §6). Still red after 3: comment the stop report
-(Done / Stuck on / Decision needed), add `ai:blocked`, report to the planner,
-and stop.
+(Done / Stuck on / Decision needed), add `ai:blocked` and remove `ai:in-review`,
+report to the planner, and stop.
 
 ## 5. Hand to review
 

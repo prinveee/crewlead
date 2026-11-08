@@ -113,8 +113,9 @@ Cursor, call them by name.
 | See what is waiting | `/whats-next` | What needs you, what the AI is doing, what is queued |
 | Accept it | merge the PR yourself | Agents never merge |
 
-Small bug fixes skip the `/go` wait: the planner plans and the implementor
-builds straight away. You still review and merge.
+Small bug fixes skip the `/go` wait when someone on your team (write access)
+opened the issue: the planner plans and the implementor builds straight away.
+You still review and merge. A bug reported by anyone else waits for your `/go`.
 
 ## 4. Follow the labels
 
@@ -127,7 +128,7 @@ The issue's label always tells you where it is:
 | `ai:implementing` | Being built | AI |
 | `ai:in-review` | Draft PR open, CI and review running | AI |
 | `ai:ready` | Review passed | **You**: merge |
-| `ai:blocked` | An agent stopped with a question | **You**: answer on the issue |
+| `ai:blocked` | An agent stopped with a question | **You**: answer on the issue, then run `/issue-plan <n>` again |
 
 ## 5. Choose your crew
 

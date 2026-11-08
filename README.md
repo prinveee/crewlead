@@ -51,10 +51,16 @@ programs. crewlead is a way of working: it puts rules, roles and skills into
 your repository so the coding agents you already use work issue by issue.
 
 ```
-Issue ─► Planner ─► Implementor ─► CI + guard ─► Reviewer (fresh context) ─► you merge
-         (claude)      (codex)                      (claude)        ← defaults; `agents` in .ai/project.yml
-  ▲ Intake (Claude) talks with you first        spec documents for large work, led by you
+You: "I need X" ─► Intake writes the issue ─► you say yes
+                   Planner reads the code, posts a plan ─► you comment /go ¹
+                   Implementor builds it with tests ─► draft PR ─► CI + guard
+                   Reviewer, fresh context ─► changes? back to the implementor ²
+                   ─► you merge
+Any agent stuck ─► ai:blocked + a question on the issue ─► you answer ─► it carries on
 ```
+¹ Small bug fixes from your own team skip the `/go`. ² Two rounds at most, then
+it is your call. Defaults: planner and reviewer Claude, implementor Codex
+(`agents` in `.ai/project.yml`). Large work gets a spec document first, led by you.
 
 - **Start here — how to use it:** [`docs/usage.md`](docs/usage.md) ·
   [ภาษาไทย](docs/usage.th.md)

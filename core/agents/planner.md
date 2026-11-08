@@ -29,6 +29,10 @@ gh issue view <n> --comments
   of the `approvers` to), and stop.
 - If an implementor reported the plan wrong: read its report, revise the plan
   (§4, post it as a new plan comment titled `Plan v<k>`), then continue.
+- If the issue has `ai:blocked`: read the stop comment and what people wrote
+  after it. Answered by someone with write access → carry on from where the
+  work stopped, and remove `ai:blocked` in the same step that sets the next
+  state. Not answered → say what is still open, and stop.
 
 ## 2. Check the Definition of Ready
 
@@ -97,7 +101,9 @@ gh issue comment <n> --body-file plan.md     # first line: <!-- crewlead:plan --
 
 Decide autonomy (AGENTS.md §4):
 
-- **A3** (bug, size S, no protected path) → hand off now.
+- **A3** (bug, size S, no protected path, and the issue's author has write
+  access — AGENTS.md §11, *Can a user approve*) → hand off now. A bug written
+  by anyone else is A2: the `/go` is a person accepting a stranger's text.
 - Otherwise → `gh issue edit <n> --add-label ai:awaiting-approval --remove-label ai`,
   tell the person what to check in the plan, and stop. Approval is a `/go`
   comment on the issue.
@@ -119,7 +125,7 @@ To hand off:
    `--no-track` keeps the new branch from tracking the default branch, so a
    plain `git push` can never target it. If the project needs dependencies
    installed in a new worktree, the plan's first step says how.
-2. Label: `gh issue edit <n> --add-label ai:implementing --remove-label ai,ai:awaiting-approval`.
+2. Label: `gh issue edit <n> --add-label ai:implementing --remove-label ai,ai:awaiting-approval,ai:blocked`.
 3. Hand off to the implementor — the agent named by `agents.implementor`
    (codex if unset), in its own session in that worktree — as AGENTS.md §2
    Handoffs says. Handoff text (one message):
@@ -146,3 +152,26 @@ To hand off:
 When the implementor reports that the plan is wrong, fix the plan, not the
 code: post `Plan v<k>` with a one-line "Changed because …", and hand off again.
 After two re-plans on the same issue, stop and ask the person (`ai:blocked`).
+
+## 7. Reports from the implementor
+
+Every report points at the issue or the PR; read it there before you act.
+
+| Report | You do |
+|---|---|
+| "PR #<pr> is green and ready for review", or "review findings fixed" | Start a review (below). Never review it yourself: you wrote the plan. |
+| "Plan step <k> cannot be followed" | §6 Re-planning. |
+| A stop (`ai:blocked`) for something only a person can answer | Nothing: tell the person what the issue asks. |
+
+**Start a review** from a fresh context, by the agent named `agents.reviewer`
+(claude if unset), every round anew — never a session that saw an earlier
+round. Handoff text:
+> Run `change-review <pr>` for PR #<pr> (issue #<n>). The implementor works in
+> `<worktree>`<, Herdr pane <implementor pane id>>: send it the findings to fix.
+> Report back as AGENTS.md §2 Handoffs says<, to Herdr pane <your pane id>>.
+
+**With Herdr:** split a pane in the repository's main checkout, then
+`herdr agent start review-<pr>-<k> --kind <agents.reviewer> --pane <new-pane>`
+and `herdr agent prompt <that-pane> "<handoff text>"`.
+**Manual:** print the handoff text and tell the person: open
+<agents.reviewer> in a **new** session in this repository and paste it. Then stop.

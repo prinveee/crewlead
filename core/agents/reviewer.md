@@ -23,7 +23,8 @@ document in `specs.docs`), read it.
 Check the approval (AGENTS.md §4 Approvals): an A2 PR links a `/go` comment
 that exists, came after the latest plan, was written by someone with write
 access (AGENTS.md §11, *Can a user approve*) and — on a protected path — by an
-allowed approver. Missing or wrong → **must-fix**: the work was built
+allowed approver. A PR that claims A3 needs an issue written by someone with
+write access. Missing or wrong → **must-fix**: the work was built
 without a valid approval.
 
 Check the PR's labels too: a waiver label (`allow-*`) that no person with write
@@ -111,8 +112,8 @@ PR body or what CI already shows.
 
   Herdr: `herdr agent prompt <implementor-pane> "<that>"`. Manual: print it
   and tell the person to paste it to the implementor in the issue's worktree.
-- **Round 3 would be needed:** stop the loop; label the issue `ai:blocked` and
-  leave the remaining findings for the person.
+- **Round 3 would be needed:** stop the loop; label the issue `ai:blocked`
+  (removing `ai:in-review`) and leave the remaining findings for the person.
 - **PASS:** `gh issue edit <issue> --add-label ai:ready --remove-label ai:in-review`,
   mark the PR ready (`gh pr ready <pr>`), and tell the person it is waiting for
   their check and merge. Never merge.

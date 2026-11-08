@@ -110,8 +110,9 @@ crewlead init --labels
 | ดูว่ามีอะไรรออยู่ | `/whats-next` | อะไรรอคุณ, AI ทำอะไรอยู่, อะไรอยู่ในคิว |
 | รับงาน | คุณ merge PR เอง | agent ไม่ merge เด็ดขาด |
 
-bug เล็ก ๆ ไม่ต้องรอ `/go`: planner วางแผนแล้ว implementor ลงมือได้เลย
-แต่คุณยังเป็นคนตรวจและ merge
+bug เล็ก ๆ ที่คนในทีม (มีสิทธิ์ write) เปิด issue ไม่ต้องรอ `/go`: planner วางแผนแล้ว
+implementor ลงมือได้เลย แต่คุณยังเป็นคนตรวจและ merge ส่วน bug ที่คนนอกแจ้ง
+ต้องรอ `/go` จากคุณก่อน
 
 ## 4. ดูสถานะจาก label
 
@@ -124,7 +125,7 @@ label ของ issue บอกเสมอว่างานอยู่ตร�
 | `ai:implementing` | กำลังทำ | AI |
 | `ai:in-review` | เปิด draft PR แล้ว CI กับ reviewer กำลังตรวจ | AI |
 | `ai:ready` | ตรวจผ่านแล้ว | **คุณ**: merge |
-| `ai:blocked` | agent หยุดและมีคำถาม | **คุณ**: ตอบใน issue |
+| `ai:blocked` | agent หยุดและมีคำถาม | **คุณ**: ตอบใน issue แล้วสั่ง `/issue-plan <n>` อีกครั้ง |
 
 ## 5. เลือก crew ของคุณ
 

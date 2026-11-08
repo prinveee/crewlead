@@ -14,6 +14,13 @@
   person must decide, with the evidence collapsed; a plan starts with a short
   summary and "For you before /go", with the full plan collapsed.
 - Plan and review comments marked `ai-dev-flow:` (before the rename) still count.
+- The planner now starts each review round in a fresh reviewer session when
+  the implementor reports a green PR or fixed findings (before, nobody did).
+- `ai:blocked` replaces the state it stops; the agent that picks the issue up
+  again removes it. The usage guide says what to run after answering.
+- A small bug skips `/go` only when its issue was written by someone with
+  write access; anyone else's issue waits for a `/go`.
+- README diagram shows the `/go`, the review loop and the blocked loop.
 
 ## 0.5.0
 - Renamed from ai-dev-flow to **crewlead**; the command is now `crewlead`
