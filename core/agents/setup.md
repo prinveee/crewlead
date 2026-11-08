@@ -90,6 +90,8 @@ For each value: keep, fix, or ask.
 - `protected_paths`: keep the agents' rule files; add where a wrong change costs
   the most (auth, payments, permissions, schema, deploy, money calculations).
 - `approvers`: real logins only, from the person. Never guess one. A team of one: `solo: true` and only their own login.
+- `language`: the language the team reads on issues and PRs (`en`, `th`, …).
+  Ask; suggest the language of the recent issues, or the one the person writes in.
 
 ## 4. Draft the steering
 

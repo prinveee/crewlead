@@ -59,7 +59,8 @@ gh pr create --draft --title "<issue title> (#<n>)" --body-file pr.md
 gh issue edit <n> --add-label ai:in-review --remove-label ai:implementing
 ```
 
-`pr.md` follows `.github/pull_request_template.md`: `Closes #<n>`, the approval
+Write the PR description and every stop comment in the project's `language`
+(AGENTS.md, top). `pr.md` follows `.github/pull_request_template.md`: `Closes #<n>`, the approval
 from the handoff (comment URL, or A3), the AC → test
 map with the real test names, the failing-then-passing evidence for a bug, every
 deviation from the plan with its reason, and the commands you ran.

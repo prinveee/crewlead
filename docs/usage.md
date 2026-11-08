@@ -169,6 +169,7 @@ service or account. crewlead gives the direction; you set the details.
 | Who may approve; working alone | `approvers`, `solo` |
 | Which agent plays each role | `agents` |
 | Label names, to match your board | `labels` |
+| Language of issues, plans and reviews (e.g. `th`) | `language` |
 | What the agents know and must respect | `.ai/steering/*.md`, the business rules file |
 | Extra rules for one folder | an `AGENTS.md` inside that folder |
 | Extra skills of your own | `.agents/skills/<name>/` — crewlead keeps them |

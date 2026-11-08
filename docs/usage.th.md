@@ -166,6 +166,7 @@ solo: true        # ทำคนเดียว? ให้อนุมัติ�
 | ใครอนุมัติได้, ทำงานคนเดียว | `approvers`, `solo` |
 | agent ตัวไหนเล่นบทไหน | `agents` |
 | ชื่อ label ให้ตรงกับ board ของคุณ | `labels` |
+| ภาษาของ issue, แผน และรีวิว (เช่น `th`) | `language` |
 | สิ่งที่ agent ต้องรู้และต้องเคารพ | `.ai/steering/*.md` และไฟล์ business rules |
 | กฎเพิ่มสำหรับบางโฟลเดอร์ | วาง `AGENTS.md` ไว้ในโฟลเดอร์นั้น |
 | skill ของคุณเอง | `.agents/skills/<ชื่อ>/` (crewlead เก็บไว้ให้ ไม่ลบ) |

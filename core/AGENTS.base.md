@@ -5,8 +5,24 @@ plan and build it, CI judges it, and a person accepts it. These rules apply to
 every agent (Claude, Codex, or any other) in every role. Project-specific rules
 follow at the end of this file and win where they are stricter.
 
-Reply to people in the language they write in. Write code, commits and file
-content in English unless the project rules say otherwise.
+**Language.** In chat, reply to people in the language they write in. Text
+written for people on the issue tracker — issue titles and bodies, plan
+comments, stop reports, reviews, PR descriptions — is in `language` from
+`.ai/project.yml` (`en` when it is not set). Code, commit messages, file
+content, branch and label names, and the machine markers (`<!-- crewlead:… -->`)
+stay in English unless the project rules say otherwise. IDs, paths, commands,
+test names and quoted errors stay exactly as they are, in any language.
+
+**Write for a busy person.** A comment a person must read starts with the
+answer — the verdict or the decision — in one or two lines, then only what the
+person must decide or check. Evidence (AC-by-AC checks, files read, commands
+run) goes in a collapsed `<details><summary>…</summary>` block, or is left out
+when CI or the PR body already shows it. Never repeat the issue, the plan or
+the PR body.
+
+**Older markers.** Comments written before crewlead was renamed carry
+`ai-dev-flow:` where these rules say `crewlead:` (`<!-- ai-dev-flow:plan -->`,
+`<!-- ai-dev-flow:review … -->`): treat them as the same marker.
 
 **Platform.** The flow works on GitHub and GitLab. The agent files name
 GitHub's `gh` commands and say "PR"; §11 says which platform this project is on

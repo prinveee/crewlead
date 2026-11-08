@@ -62,7 +62,8 @@ tracked.
 
 ## 5. Draft, approve, create
 
-Show the full draft issue in the chat using the matching template
+Write the issue in the project's `language` (AGENTS.md, top), even when you
+talk with the person in another one. Show the full draft issue in the chat using the matching template
 (`.github/ISSUE_TEMPLATE/feature.yml` or `bug.yml`, rendered as Markdown with the
 same headings). Acceptance criteria in business language, Given/When/Then,
 each tagged with the rules it depends on: `AC-1 [BR-PRICE-01]: GIVEN …`.

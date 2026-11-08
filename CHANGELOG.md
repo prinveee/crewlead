@@ -7,6 +7,13 @@
   not instructions. An attempt to instruct them is quoted and becomes a stop.
 - Agents never add or remove waiver labels (`allow-*`) or `needs-lead-review`;
   the reviewer flags a waiver label no person added.
+- `language` in `.ai/project.yml` (default `en`): issues, plans, stop reports,
+  reviews and PR descriptions are written in it; code, commits, files and
+  markers stay English. Setup asks; update warns when it is missing.
+- Shorter comments for people: a review starts with the verdict and what the
+  person must decide, with the evidence collapsed; a plan starts with a short
+  summary and "For you before /go", with the full plan collapsed.
+- Plan and review comments marked `ai-dev-flow:` (before the rename) still count.
 
 ## 0.5.0
 - Renamed from ai-dev-flow to **crewlead**; the command is now `crewlead`

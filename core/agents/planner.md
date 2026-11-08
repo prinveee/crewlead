@@ -58,7 +58,13 @@ which existing code to copy, `tech.md` which decisions you may not break.
 
 ## 4. Write the plan
 
-Use `.ai/flow/templates/plan.md`. Rules:
+Use `.ai/flow/templates/plan.md`, in the project's `language` (AGENTS.md,
+top). Rules:
+
+- **Two readers.** The person reads only the top: **In short** and **For you
+  before `/go`**, enough to approve or not without opening the rest. The
+  implementor reads everything; the full plan sits in the collapsed
+  `<details>` block, as precise as ever.
 
 - **Design section** for Feature M and Story lanes (components and files,
   data-model change, API contract, error handling, test strategy). Leave it

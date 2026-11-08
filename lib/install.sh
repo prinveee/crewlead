@@ -139,6 +139,9 @@ if ! grep -q '^approvers:' "$target/.ai/project.yml"; then
 elif grep -q 'your-lead-login' "$target/.ai/project.yml"; then
   warn ".ai/project.yml: approvers is still the example — put real usernames there"
 fi
+if ! grep -q '^language:' "$target/.ai/project.yml"; then
+  warn ".ai/project.yml has no language — agents write issues, plans and reviews in English; add e.g. 'language: th' for another one"
+fi
 if ! grep -qF 'AGENTS\.md' "$target/.ai/project.yml"; then
   warn ".ai/project.yml: protected_paths does not cover the agents' rule files — add '(^|/)AGENTS\.md\$', '(^|/)CLAUDE\.md\$' and '^\.(agents|claude|cursor|codex)/'"
 fi

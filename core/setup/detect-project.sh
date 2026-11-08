@@ -378,6 +378,11 @@ agents:
 # manual.
 handoff: auto
 
+# Language of text written for people on issues and PRs: issue bodies, plans,
+# stop reports, reviews, PR descriptions (en, th, …). Code, commits, files and
+# machine markers stay in English. project-setup asks.
+language: en
+
 # Usernames (GitHub or GitLab) who may approve work on a protected path (a /go comment on the
 # issue, and the PR review before merge). Never the developer driving the work
 # or the issue's author: keep at least two people here. A team of one sets

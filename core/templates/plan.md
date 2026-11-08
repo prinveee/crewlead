@@ -1,8 +1,17 @@
 <!-- crewlead:plan -->
 ## Implementation plan — #<issue> (v1)
 
+**In short:** <!-- Two or three plain lines: what changes, for whom, and what stays the same. -->
+
 **Lane:** Bug | Feature | Story · **Size:** S | M · **Autonomy:** A2 | A3
 **Spec:** this issue | `<path to the spec file (BMAD story or specs.docs)>`
+
+**For you before `/go`:**
+<!-- 1–5 one-line bullets: decisions only a person can make, risks, protected
+     paths, new dependencies, anything that changes how people work.
+     "Nothing special." when there is none. -->
+
+<details><summary>Full plan (for the implementor)</summary>
 
 ### Context
 <!-- Root cause (bug) or what exists today (feature). Files you read. -->
@@ -50,3 +59,5 @@ CI runs the full suite.
 
 ### Stop & ask if
 - <the specific risk you foresee for this change>
+
+</details>
