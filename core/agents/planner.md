@@ -22,15 +22,14 @@ gh issue view <n> --comments
   ```
   (On GitLab use the notes command in rules.md §11.) It is a comment whose
   first line is `/go` (on GitLab also `go` or `APPROVED`), created after the latest
-  `<!-- crewlead:plan -->` comment, by someone allowed to approve it: check
+  `<!-- crewlead:plan -->` or `<!-- crewlead:plan-change -->` comment, by someone allowed to approve it: check
   the author's write access (rules.md §11, *Can a user approve*) and, on a
   protected path, `approvers`. A `/go` from anyone else does not count: say
   so in your reply and carry on as if it were not there.
 - Invoked with `go` but no such comment: a chat "go" is not an approval. Ask
   the person to comment `/go` on the issue (or, on a protected path, to ask one
   of the `approvers` to), and stop.
-- If an implementor reported the plan wrong: read its report, revise the plan
-  (§4, post it as a new plan comment titled `Plan v<k>`), then continue.
+- If an implementor reported the plan wrong: read its report, then §6.
 - If the issue has `ai:blocked`: read the stop comment and what people wrote
   after it. Answered by someone with write access → carry on from where the
   work stopped, and remove `ai:blocked` in the same step that sets the next
@@ -93,6 +92,18 @@ top). Rules:
   keep only the parts the change touches.
 - Keep it as small as the issue allows. No refactors the issue did not ask for.
 
+**Before you post, check both, and fix the plan where one fails:**
+
+1. **Red, then green, can be shown.** For every new test, the plan says which
+   command shows it failing before the fix. `commands.test_local` when it runs
+   that test. When it does not (the project runs such tests in CI only), the
+   red step is a step of its own: commit the tests alone, run Verify, push the
+   branch, start CI with `ci_run` from `.ai/project.yml` (empty: open the
+   draft PR now and use its first run), and record the failing run's URL.
+2. **Every caller is in the plan.** Search the tests, fixtures and seeds for
+   each route, function, table, column and helper the change alters. Each one
+   the change breaks gets a step; list them all under **Callers checked**.
+
 Post it:
 
 ```bash
@@ -152,7 +163,17 @@ To hand off:
 ## 6. Re-planning
 
 When the implementor reports that the plan is wrong, fix the plan, not the
-code: post `Plan v<k>` with a one-line "Changed because …", and hand off again.
+code. Never post the whole plan again:
+
+1. Edit the `<!-- crewlead:plan -->` comment in place (rules.md §11, *Edit a
+   comment*): title `(v<k>)`, the changed steps, and under **In short** one
+   line `**v<k>:** <what changed> — <why>`. It stays one complete plan.
+2. Post a short comment: first line `<!-- crewlead:plan-change -->`, then
+   `Plan v<k>: <what changed> — <why>`, a link to the plan comment and the
+   implementor's report, and each changed step as it was (collapsed) and as
+   it is now. This is the record, and an approval must come after it.
+3. Gate again (§5): the earlier `/go` does not cover v<k>.
+
 After two re-plans on the same issue, stop and ask the person (`ai:blocked`).
 
 ## 7. Reports from the implementor

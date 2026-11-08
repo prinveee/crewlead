@@ -31,7 +31,8 @@ the PR body.
 
 **Where things are.** Work and its status: the issues and the board (nothing
 else holds status). The requirement is the issue body; the plan is the latest
-`<!-- crewlead:plan -->` comment. Project knowledge: the steering at the end of
+`<!-- crewlead:plan -->` comment, edited in place on a re-plan
+(`<!-- crewlead:plan-change -->` comments say what changed). Project knowledge: the steering at the end of
 this file; every business rule, with its ID: the file `business_rules` names in
 `.ai/project.yml`. Settings: `.ai/project.yml`. Whether a change works: CI, not
 an agent's opinion. Agents keep no memory between runs: each run starts from

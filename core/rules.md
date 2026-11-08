@@ -16,7 +16,7 @@ platform.
 |---|---|
 | Work items and their status | **GitHub issues + the project board.** Nothing else holds status. |
 | Business requirement of an issue | The issue body (written via intake). |
-| Technical plan of an issue | The latest issue comment marked `<!-- crewlead:plan -->`. |
+| Technical plan of an issue | The latest issue comment marked `<!-- crewlead:plan -->`. A re-plan edits it in place; each change is recorded in a short comment marked `<!-- crewlead:plan-change -->`. |
 | Large-feature specs | Spec files, when the project has them (`.ai/project.yml` → `specs`): BMAD story files (`bmad_stories`) or plain spec documents (`docs`: the folder that holds them). The spec file is the spec; its GitHub issue is its status. |
 | Project knowledge (steering) | `.ai/steering/product.md` (users, scope, business rules), `tech.md` (stack, decisions, local machine, deploy), `structure.md` (code map, where new things go). Included at the end of `AGENTS.md`. |
 | Business rules, in full | The file named by `business_rules` in `.ai/project.yml`. Every rule has an ID (`BR-<AREA>-<nn>`); `product.md` lists the ones every change must respect. |
@@ -103,7 +103,8 @@ must accept its text with a `/go` before anything is built.
 Kept simple, but always checkable afterwards:
 
 - **An approval is a `/go` comment on the issue** (on GitLab also `go` or
-  `APPROVED` as the first line, §11), written after the latest plan comment. Its URL goes into the PR body. A "yes" or "go" in a chat is not an
+  `APPROVED` as the first line, §11), written after the latest plan comment
+  or `plan-change` comment, whichever is later. Its URL goes into the PR body. A "yes" or "go" in a chat is not an
   approval: it may only allow outward actions (post, push, open a PR, move a
   label).
 - **Who may approve at all:** only someone with **write access** to the

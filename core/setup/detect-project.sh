@@ -280,6 +280,21 @@ esac
 business_rules=".ai/business-rules.md"
 [[ -f docs/business-rules.md ]] && business_rules="docs/business-rules.md"
 
+# How to start CI on a pushed branch before its PR exists (planner.md §4:
+# red evidence for tests that only CI may run). GitHub: the one workflow with
+# both workflow_dispatch and pull_request triggers, other than the guard.
+ci_run=""
+if [[ "$platform" == gitlab ]]; then
+  ci_run='glab ci run --branch <branch>'
+elif [[ "$platform" == github && -d .github/workflows ]]; then
+  wfs=()
+  for f in .github/workflows/*.yml .github/workflows/*.yaml; do
+    [[ -f "$f" && "$(basename "$f")" != ai-guard.yml ]] || continue
+    grep -qE '^[[:space:]]+workflow_dispatch:' "$f" && grep -qE '^[[:space:]]+pull_request:' "$f" && wfs+=("$(basename "$f")")
+  done
+  (( ${#wfs[@]} == 1 )) && ci_run="gh workflow run ${wfs[0]} --ref <branch>"
+fi
+
 platform_protected() {
   [[ "$platform" != gitlab ]] && echo "  - '^\\.github/'"
   [[ "$platform" != github ]] && printf "  - '^\\.gitlab/'\n  - '^\\.gitlab-ci\\.yml\$'\n"
@@ -333,6 +348,11 @@ commands:
   test_local: $(yaml_value "$test_local")
   test_full: $(yaml_value "$test_full")
   build: $(yaml_value "$build")
+
+# Starts CI on a pushed branch without a PR, for tests that only CI may run
+# (not covered by test_local): the plan's red step pushes the tests alone and
+# runs this. Empty: the implementor opens the draft PR early instead.
+ci_run: $(yaml_value "$ci_run")
 
 # Git pathspecs of test files ("*" also matches "/"). The guard counts test
 # cases in these and rejects new skip/only markers in them.
