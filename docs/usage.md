@@ -174,6 +174,7 @@ service or account. crewlead gives the direction; you set the details.
 | Files that must never be edited (e.g. migrations) | `immutable_paths` in `.ai/project.yml` |
 | Files that need a lead's review (auth, payments, deploy…) | `protected_paths` |
 | Commands for lint, tests and build | `commands` |
+| How to start CI on a branch, for tests only CI may run | `ci_run` |
 | Who may approve; working alone | `approvers`, `solo` |
 | Which agent plays each role | `agents` |
 | Label names, to match your board | `labels` |

@@ -2,6 +2,8 @@
 ## Implementation plan — #<issue> (v1)
 
 **In short:** <!-- Two or three plain lines: what changes, for whom, and what stays the same. -->
+<!-- A re-plan edits this comment in place: (v<k>) in the title, and here one line per version:
+     **v<k>:** <what changed> — <why> (planner.md §6). -->
 
 **Lane:** Bug | Feature | Story · **Size:** S | M · **Autonomy:** A2 | A3
 **Spec:** this issue | `<path to the spec file (BMAD story or specs.docs)>`
@@ -17,9 +19,11 @@
 <!-- Root cause (bug) or what exists today (feature). Files you read. -->
 
 ### AC → test map
-| AC | Rules | Test (file › name) | Status today |
-|---|---|---|---|
-| AC-1 | BR-… | `tests/…/x.test.ts` › "…" | new — fails until step 3 |
+| AC | Rules | Test (file › name) | Red shown by | Status today |
+|---|---|---|---|---|
+| AC-1 | BR-… | `tests/…/x.test.ts` › "…" | `test_local` \| CI, step 2 | new — fails until step 3 |
+
+Callers checked: <!-- tests, fixtures, seeds that use what changes; each one that breaks has a step. -->
 
 ### Design
 <!-- Feature M and Story only; delete for bugs and size S.

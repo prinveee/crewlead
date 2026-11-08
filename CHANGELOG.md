@@ -1,6 +1,29 @@
 # Changelog
 
 ## 0.5.2
+- Planner checks two things before it posts a plan (seen on a real project,
+  where each miss cost a re-plan). **Red, then green, can be shown:** every new
+  test says which command shows it failing; a test `commands.test_local` does
+  not run (CI-only, e.g. it writes to a database) gets a red step of its own —
+  commit the tests alone, push, start CI, record the failing run. **Every
+  caller is in the plan:** the planner searches tests, fixtures and seeds for
+  each route, function, table and helper the change alters; the plan template
+  gains a "Red shown by" column and a "Callers checked" line.
+- New optional `ci_run` in `.ai/project.yml`: how to start CI on a pushed
+  branch before its PR exists (`gh workflow run ci.yml --ref <branch>`,
+  `glab ci run --branch <branch>`). Detection fills it on GitLab, and on
+  GitHub when exactly one workflow has both `workflow_dispatch` and
+  `pull_request`. Empty: the red step opens the draft PR early instead. The
+  implementor may push the tests-only commit once, for that step.
+- A re-plan no longer posts the whole plan again (re-posts grew a 3-step issue
+  to three near-identical 15–18k comments that every later session read). The
+  planner edits the `<!-- crewlead:plan -->` comment in place to v<k> and posts
+  a short `<!-- crewlead:plan-change -->` comment: what changed, why, and the
+  old and new text of each changed step. There is still one complete plan; a
+  `/go` must come after the latest plan or plan-change comment (planner,
+  implementor, reviewer, rules.md §4). rules.md §11 gains *Edit a comment* for
+  GitHub and GitLab. Issues planned before keep working: the latest plan
+  comment is still the plan.
 - `AGENTS.md` is loaded in every session, so it now holds only what every agent
   follows (language, where things are, Never, Stop and ask) and the steering:
   under 1,000 words of flow rules instead of about 3,300. The rest of the flow
