@@ -33,6 +33,7 @@ for f in .ai/flow/agents/intake.md .ai/flow/agents/planner.md .ai/flow/agents/im
   check "creates $f" "[[ -f '$R/$f' ]]"
 done
 check "pre-push hook installed" "[[ -x '$R/.git/hooks/pre-push' ]]"
+check "flow scripts keep LF line endings (.ai/flow/.gitattributes)" "grep -qx '* text eol=lf' '$R/.ai/flow/.gitattributes'"
 for k in project-setup issue-new issue-plan change-review whats-next; do
   check "skill $k is linked for Claude" "[[ -L '$R/.claude/skills/$k' && \$(readlink '$R/.claude/skills/$k') == ../../.agents/skills/$k ]]"
 done

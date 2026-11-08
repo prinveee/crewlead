@@ -21,11 +21,14 @@ and every step is written on the issue or the PR, so nothing is lost.
 ## 1. Install (once per machine)
 
 You need: git, bash, jq, `gh` (GitHub) or `glab` (GitLab), logged in, and at
-least one coding agent (Claude Code, Codex CLI or Cursor).
+least one coding agent (Claude Code, Codex CLI or Cursor). It runs on macOS
+and Linux; on Windows, use WSL2.
 
 ```bash
 git clone https://github.com/prinveee/crewlead.git && cd crewlead
-ln -s "$PWD/bin/crewlead" ~/.local/bin/crewlead
+mkdir -p ~/.local/bin && ln -s "$PWD/bin/crewlead" ~/.local/bin/crewlead
+crewlead version   # "command not found"? put ~/.local/bin on your PATH:
+                   #   echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc   (bash: ~/.bashrc)
 ```
 
 ## 2. Add crewlead to a project (once per project)

@@ -89,6 +89,7 @@ Change them in the crewlead repository, then run \`crewlead update\` here.
 This project's own files are \`.ai/project.yml\` (settings) and \`.ai/steering/\` (knowledge).
 EOF
 echo "$VERSION" > "$target/.ai/flow/VERSION"
+printf '# Managed by crewlead: scripts and hooks here keep Unix line endings on Windows.\n* text eol=lf\n' > "$target/.ai/flow/.gitattributes"
 note ".ai/flow/ (agents, templates, guard, drift check, pre-push hook) v$VERSION"
 
 # 2. Project-owned settings and steering (Kiro-style: product, tech, structure).

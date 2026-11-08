@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # crewlead — the command line. Put it on your PATH once:
 #
-#   ln -s /path/to/crewlead/bin/crewlead ~/.local/bin/crewlead
+#   mkdir -p ~/.local/bin && ln -s /path/to/crewlead/bin/crewlead ~/.local/bin/crewlead
 #
 # Commands (repo defaults to the current directory):
 #   crewlead init   [--labels] [--platform github|gitlab] [repo]   put the flow into a repository

@@ -1,6 +1,12 @@
 # Changelog
 
 ## Unreleased
+- Runs on macOS and Linux (CI); Windows through WSL2, said in README and the
+  usage guide. Git Bash and PowerShell are not supported.
+- Install steps create `~/.local/bin` and say how to put it on PATH (on a new
+  Mac the folder does not exist, and the `ln -s` failed).
+- Scripts keep Unix line endings on Windows checkouts: `.gitattributes` in this
+  repo, and `.ai/flow/.gitattributes` in every installed project.
 - Guard: catches Python skips too — `@unittest.skip`/`@skip`, `skipIf`,
   `skipUnless`, `expectedFailure`, `self.skipTest`, `pytest.mark.xfail`,
   `pytest.skip`/`xfail` — and `xtest(`.

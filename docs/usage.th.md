@@ -22,10 +22,13 @@
 
 ต้องมี: git, bash, jq, `gh` (GitHub) หรือ `glab` (GitLab) ที่ login แล้ว
 และ coding agent อย่างน้อยหนึ่งตัว (Claude Code, Codex CLI หรือ Cursor)
+ใช้ได้บน macOS และ Linux ส่วน Windows ให้ใช้ผ่าน WSL2
 
 ```bash
 git clone https://github.com/prinveee/crewlead.git && cd crewlead
-ln -s "$PWD/bin/crewlead" ~/.local/bin/crewlead
+mkdir -p ~/.local/bin && ln -s "$PWD/bin/crewlead" ~/.local/bin/crewlead
+crewlead version   # ขึ้น "command not found"? เพิ่ม ~/.local/bin เข้า PATH:
+                   #   echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc   (bash: ~/.bashrc)
 ```
 
 ## 2. ใส่ crewlead ลงโปรเจกต์ (ครั้งเดียวต่อโปรเจกต์)
