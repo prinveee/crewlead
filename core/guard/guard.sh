@@ -94,9 +94,12 @@ $added"
   fi
 
   # 3. The test-case count must not drop. A count, not a proof: it catches a
-  #    deleted test file or a gutted describe block.
+  #    deleted test file or a gutted describe block. Count from where the PR
+  #    branched (the merge-base), not the base's tip: tests merged into the
+  #    base after the branch was cut are not the PR's to lose.
   count() { { git grep -hE "$test_case_re" "$1" -- "${test_globs[@]}" || true; } | wc -l | tr -d ' '; }
-  base_n=$(count "$BASE_SHA")
+  fork=$(git merge-base "$BASE_SHA" "$HEAD_SHA" 2>/dev/null || echo "$BASE_SHA")
+  base_n=$(count "$fork")
   head_n=$(count "$HEAD_SHA")
   echo "Test cases: base=$base_n head=$head_n"
   if (( head_n < base_n )); then
