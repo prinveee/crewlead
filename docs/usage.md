@@ -1,7 +1,7 @@
 # Using crewlead
 
 A short, practical guide. For the full method, see
-[`methodology.th.md`](methodology.th.md) (Thai).
+[`methodology.md`](methodology.md) ([ภาษาไทย](methodology.th.md)).
 
 ## The idea in one picture
 

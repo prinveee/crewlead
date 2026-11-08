@@ -1,3 +1,5 @@
+[English](methodology.md) · **ภาษาไทย**
+
 # crewlead — วิธีทำงานแบบ AI agent (ภาพรวมทั้งหมด)
 
 เอกสารนี้สรุปทุกอย่างที่ตกลงกันไว้ ส่วนกฎที่ agent ต้องทำตามอยู่ที่ `core/AGENTS.core.md` (ทุก session) และ `core/rules.md` (เมื่อเล่นบทใน flow)
@@ -48,11 +50,11 @@
 | Planner | `agents.planner` (ค่าตั้งต้น Claude) | `issue-plan <n>` |
 | Implementor | `agents.implementor` (ค่าตั้งต้น **Codex**) | session ของตัวเองใน worktree ของ issue นั้น |
 | Reviewer | `agents.reviewer` (ค่าตั้งต้น Claude) เริ่ม context ใหม่เสมอ (Claude ใช้ subagent, Cursor/Codex เปิดแชตใหม่) | `change-review <pr>` |
+| Tester | CI | GitHub Actions |
 
 **ใช้ได้ทุก agent**: กฎอยู่ใน `AGENTS.md` และ skill (`project-setup`, `issue-new`, `issue-plan`, `change-review`, `whats-next`) อยู่ที่ `.agents/skills/` ที่เดียว
 ส่วน `.claude/skills/` เป็น link ไปที่เดียวกัน Claude Code เรียกด้วย `/issue-plan 12`,
 Cursor ใช้ `/issue-plan 12`, Codex ใช้ `$issue-plan 12` (ตารางเต็มอยู่ใน `AGENTS.md` §10)
-| Tester | CI | GitHub Actions |
 
 **Subagent** ใช้แค่ 2 จุด: planner แตกไปค้นโค้ดได้ไม่เกิน 3 ตัวเมื่องานต้องค้นกว้าง และ reviewer รันเป็น subagent เพื่อให้เริ่ม context ใหม่
 **Multi-agent** เป็นการส่งงานต่อกันเป็นลำดับ ไม่ใช่กลุ่ม agent ที่คุยกันเอง ข้อมูลจริงทั้งหมดอยู่บน issue/PR ส่วนการส่งต่องาน
