@@ -1,0 +1,6 @@
+# Scripts must keep Unix line endings, also when checked out on Windows
+# (core.autocrlf): with CRLF, bash fails with "$'\r': command not found".
+* text=auto
+*.sh text eol=lf
+bin/* text eol=lf
+core/hooks/* text eol=lf

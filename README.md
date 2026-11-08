@@ -75,7 +75,9 @@ Get it and put `crewlead` on your PATH once, then use it from inside any reposit
 
 ```bash
 git clone https://github.com/prinveee/crewlead.git && cd crewlead
-ln -s "$PWD/bin/crewlead" ~/.local/bin/crewlead
+mkdir -p ~/.local/bin && ln -s "$PWD/bin/crewlead" ~/.local/bin/crewlead
+crewlead version   # "command not found"? put ~/.local/bin on your PATH:
+                   #   echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc   (bash: ~/.bashrc)
 
 cd /path/to/repo
 crewlead init      # put the flow in (--labels, --platform github|gitlab)
@@ -136,6 +138,12 @@ longer resolve (moved files, renamed skills, unknown `commands.*` keys).
 git, bash, jq, and `gh` or `glab` (authenticated). Agents: Claude Code, Codex
 CLI or Cursor. Optional: Herdr, to pass the turn between agents automatically
 (`handoff` in `.ai/project.yml`); without it you paste a short message.
+
+**Runs on** macOS and Linux (both tested in CI). **Windows:** use WSL2, where it
+works as on Linux. Git Bash and PowerShell are not supported: the installer
+relies on symlinks and Unix line endings. In a project, `.claude/skills/` holds
+symlinks, so teammates who open it on Windows outside WSL2 do not see the skills
+in Claude Code.
 
 ## Layout
 
