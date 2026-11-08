@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+- `AGENTS.md` is loaded in every session, so it now holds only what every agent
+  follows (language, where things are, Never, Stop and ask) and the steering:
+  under 1,000 words of flow rules instead of about 3,300. The rest of the flow
+  (lanes, approvals, gates, labels, handoffs, platform commands) moves to
+  `.ai/flow/rules.md`, read by agents in a role, with the same section numbers.
+  Each role file says which sections it needs.
+
 ## 0.5.1
 - Guard counts test cases from where the PR branched (the merge-base), not the
   base branch's tip. Before, tests merged into the base after the branch was

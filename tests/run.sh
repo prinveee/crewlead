@@ -28,11 +28,15 @@ out=$("$FLOW/bin/crewlead" init "$R")
 for f in .ai/flow/agents/intake.md .ai/flow/agents/planner.md .ai/flow/agents/implementor.md \
          .ai/flow/agents/reviewer.md .ai/flow/agents/setup.md .ai/flow/templates/plan.md .ai/flow/guard.sh .ai/flow/VERSION \
          .ai/project.yml .ai/steering/product.md .ai/steering/tech.md .ai/steering/structure.md AGENTS.md CLAUDE.md \
-         .ai/flow/check-drift.sh .ai/business-rules.md .agents/skills/issue-plan/SKILL.md .claude/skills/issue-plan/SKILL.md \
+         .ai/flow/check-drift.sh .ai/business-rules.md .ai/flow/rules.md .agents/skills/issue-plan/SKILL.md .claude/skills/issue-plan/SKILL.md \
          .github/ISSUE_TEMPLATE/feature.yml .github/ISSUE_TEMPLATE/bug.yml .github/workflows/ai-guard.yml; do
   check "creates $f" "[[ -f '$R/$f' ]]"
 done
 check "pre-push hook installed" "[[ -x '$R/.git/hooks/pre-push' ]]"
+check "AGENTS.md stays small: no role-only sections" "! grep -q '^## 4. Autonomy' '$R/AGENTS.md' && ! grep -q '^## 11. Platform' '$R/AGENTS.md'"
+check "AGENTS.md flow part under 1000 words" "[[ \$(awk '/^# Project steering/{exit} {w+=NF} END{print w}' '$R/AGENTS.md') -lt 1000 ]]"
+check "AGENTS.md points role agents at rules.md" "grep -q '.ai/flow/rules.md' '$R/AGENTS.md'"
+check "rules.md holds the platform commands" "grep -q '^## 11. Platform: GitHub' '$R/.ai/flow/rules.md' || grep -q '^## 11. Platform: unknown' '$R/.ai/flow/rules.md'"
 check "flow scripts keep LF line endings (.ai/flow/.gitattributes)" "grep -qx '* text eol=lf' '$R/.ai/flow/.gitattributes'"
 for k in project-setup issue-new issue-plan change-review whats-next; do
   check "skill $k is linked for Claude" "[[ -L '$R/.claude/skills/$k' && \$(readlink '$R/.claude/skills/$k') == ../../.agents/skills/$k ]]"
@@ -40,8 +44,8 @@ done
 check "own skills are kept" "[[ -f '$R/.claude/skills/mine/SKILL.md' ]]"
 check "old managed command removed" "[[ ! -e '$R/.claude/commands/flow-plan.md' ]]"
 check "foreign command kept" "[[ -f '$R/.claude/commands/flow-custom.md' ]]"
-check "AGENTS.md has the tools table" "grep -q '^## 10. Tools' '$R/AGENTS.md'"
-check "AGENTS.md: only write access may approve" "grep -q 'Who may approve at all' '$R/AGENTS.md'"
+check "rules.md has the tools table" "grep -q '^## 10. Tools' '$R/.ai/flow/rules.md'"
+check "rules.md: only write access may approve" "grep -q 'Who may approve at all' '$R/.ai/flow/rules.md'"
 check "project.yml has a language (default en)" "grep -qx 'language: en' '$R/.ai/project.yml'"
 check "AGENTS.md: language rule for tracker text" "grep -q '^\*\*Language.\*\*' '$R/AGENTS.md'"
 check "AGENTS.md: older ai-dev-flow markers still count" "grep -q 'ai-dev-flow:plan' '$R/AGENTS.md'"
@@ -135,8 +139,8 @@ check "a project's own flow-* skill is kept" "[[ -f '$O/.agents/skills/flow-mine
 check "renamed skills installed" "[[ -f '$O/.claude/skills/issue-plan/SKILL.md' ]]"
 
 echo "platforms"
-check "github: AGENTS.md has the GitHub section" "grep -q '^## 11. Platform: GitHub' '$R/AGENTS.md'"
-check "github: AGENTS.md says how to check write access" "grep -q 'collaborators/<user>/permission' '$R/AGENTS.md'"
+check "github: rules.md has the GitHub section" "grep -q '^## 11. Platform: GitHub' '$R/.ai/flow/rules.md'"
+check "github: rules.md says how to check write access" "grep -q 'collaborators/<user>/permission' '$R/.ai/flow/rules.md'"
 check "github: no GitLab files" "[[ ! -e '$R/.gitlab' ]]"
 R5=$(new_repo gl); echo "stages: [test]" > "$R5/.gitlab-ci.yml"
 out=$("$FLOW/bin/crewlead" init "$R5")
@@ -145,8 +149,8 @@ for f in .gitlab/issue_templates/Feature.md .gitlab/issue_templates/Bug.md .gitl
   check "gitlab: creates $f" "[[ -f '$R5/$f' ]]"
 done
 check "gitlab: no GitHub files" "[[ ! -e '$R5/.github' ]]"
-check "gitlab: AGENTS.md has the GitLab section" "grep -q '^## 11. Platform: GitLab' '$R5/AGENTS.md'"
-check "gitlab: AGENTS.md says how to check write access" "grep -q 'access_level. ≥ 30' '$R5/AGENTS.md'"
+check "gitlab: rules.md has the GitLab section" "grep -q '^## 11. Platform: GitLab' '$R5/.ai/flow/rules.md'"
+check "gitlab: rules.md says how to check write access" "grep -q 'access_level. ≥ 30' '$R5/.ai/flow/rules.md'"
 check "gitlab: protects .gitlab-ci.yml" "grep -qF \"'^\\.gitlab-ci\\.yml\$'\" '$R5/.ai/project.yml'"
 check "gitlab: says how to include the guard" "grep -q 'add to .gitlab-ci.yml' <<<\"\$out\""
 printf 'include:\n  - local: .ai/flow/ci/ai-guard.gitlab-ci.yml\n' >> "$R5/.gitlab-ci.yml"
@@ -159,14 +163,14 @@ check "gitlab: read from the remote host" "grep -qx 'platform: gitlab' '$R6/.ai/
 R7=$(new_repo nowhere)
 out=$("$FLOW/bin/crewlead" init "$R7" </dev/null)
 check "unknown: warns, no templates" "grep -q 'platform unknown' <<<\"\$out\" && [[ ! -e '$R7/.github' && ! -e '$R7/.gitlab' ]]"
-check "unknown: AGENTS.md tells agents to ask" "grep -q '^## 11. Platform: unknown' '$R7/AGENTS.md'"
+check "unknown: rules.md tells agents to ask" "grep -q '^## 11. Platform: unknown' '$R7/.ai/flow/rules.md'"
 out=$("$FLOW/bin/crewlead" init --platform github "$R7")
-check "unknown + --platform: installs GitHub files" "[[ -f '$R7/.github/workflows/ai-guard.yml' ]] && grep -q 'Platform: GitHub' '$R7/AGENTS.md'"
+check "unknown + --platform: installs GitHub files" "[[ -f '$R7/.github/workflows/ai-guard.yml' ]] && grep -q 'Platform: GitHub' '$R7/.ai/flow/rules.md'"
 check "unknown + --platform: asks to record it" "grep -q \"add 'platform: github'\" <<<\"\$out\""
 check "bad --platform is refused" "! '$FLOW/bin/crewlead' init --platform bitbucket '$R7' >/dev/null 2>&1"
 sed -i.bak 's/^platform: .*/platform: gitlab/' "$R6/.ai/project.yml"; rm "$R6/.ai/project.yml.bak"; git -C "$R6" remote set-url origin https://github.com/a/b.git
 "$FLOW/bin/crewlead" init "$R6" >/dev/null
-check "project.yml platform wins over the remote" "grep -q 'Platform: GitLab' '$R6/AGENTS.md'"
+check "project.yml platform wins over the remote" "grep -q 'Platform: GitLab' '$R6/.ai/flow/rules.md'"
 
 echo "labels"
 BIN="$TMP/bin"; mkdir -p "$BIN"

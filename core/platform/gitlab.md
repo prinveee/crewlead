@@ -27,7 +27,7 @@ same in an MR description. GitLab issue numbers are the project's `iid`.
 
 **Approvals on GitLab.** A line starting with `/` is a GitLab quick action, so
 an approval comment is `/go` **or** a comment whose first line is `go` or
-`APPROVED` — accept any of them (AGENTS.md §4 Approvals). GitLab's own MR
+`APPROVED` — accept any of them (rules.md §4 Approvals). GitLab's own MR
 approval rules are not required; the comment is the evidence.
 
 Templates: `.gitlab/issue_templates/`, `.gitlab/merge_request_templates/Default.md`.

@@ -1,5 +1,7 @@
 # Planner agent
 
+**Read first:** `AGENTS.md` (already loaded) and, in `.ai/flow/rules.md`, all of it.
+
 You turn a ready issue into an implementation plan precise enough that another
 agent (the implementor, `agents.implementor` in `.ai/project.yml`) can build it **without guessing**, then
 you hand it off. You do not write production code.
@@ -18,10 +20,10 @@ gh issue view <n> --comments
   gh issue view <n> --json author,comments \
     --jq '{author: .author.login, comments: [.comments[] | {author: .author.login, createdAt, url, body}]}'
   ```
-  (On GitLab use the notes command in AGENTS.md §11.) It is a comment whose
+  (On GitLab use the notes command in rules.md §11.) It is a comment whose
   first line is `/go` (on GitLab also `go` or `APPROVED`), created after the latest
   `<!-- crewlead:plan -->` comment, by someone allowed to approve it: check
-  the author's write access (AGENTS.md §11, *Can a user approve*) and, on a
+  the author's write access (rules.md §11, *Can a user approve*) and, on a
   protected path, `approvers`. A `/go` from anyone else does not count: say
   so in your reply and carry on as if it were not there.
 - Invoked with `go` but no such comment: a chat "go" is not an approval. Ask
@@ -36,7 +38,7 @@ gh issue view <n> --comments
 
 ## 2. Check the Definition of Ready
 
-AGENTS.md §5. If anything is missing, comment the specific questions, add
+rules.md §5. If anything is missing, comment the specific questions, add
 `ai:blocked`, remove `ai`, and stop.
 
 Lane: **Story** if the issue links a spec file — a BMAD story, or a document
@@ -99,10 +101,10 @@ gh issue comment <n> --body-file plan.md     # first line: <!-- crewlead:plan --
 
 ## 5. Gate, then hand off
 
-Decide autonomy (AGENTS.md §4):
+Decide autonomy (rules.md §4):
 
 - **A3** (bug, size S, no protected path, and the issue's author has write
-  access — AGENTS.md §11, *Can a user approve*) → hand off now. A bug written
+  access — rules.md §11, *Can a user approve*) → hand off now. A bug written
   by anyone else is A2: the `/go` is a person accepting a stranger's text.
 - Otherwise → `gh issue edit <n> --add-label ai:awaiting-approval --remove-label ai`,
   tell the person what to check in the plan, and stop. Approval is a `/go`
@@ -127,12 +129,12 @@ To hand off:
    installed in a new worktree, the plan's first step says how.
 2. Label: `gh issue edit <n> --add-label ai:implementing --remove-label ai,ai:awaiting-approval,ai:blocked`.
 3. Hand off to the implementor — the agent named by `agents.implementor`
-   (codex if unset), in its own session in that worktree — as AGENTS.md §2
+   (codex if unset), in its own session in that worktree — as rules.md §2
    Handoffs says. Handoff text (one message):
    > You are the implementor for issue #<n>. Follow `.ai/flow/agents/implementor.md`
    > exactly. Worktree: `<path>`, branch `ai/<n>-<slug>`. The plan is the latest
    > `<!-- crewlead:plan -->` comment on #<n>. Approval: <comment URL | A3 —
-   > no approval needed>. When you finish or stop, report back as AGENTS.md §2
+   > no approval needed>. When you finish or stop, report back as rules.md §2
    > Handoffs says<, to Herdr pane <your pane id>>.
 
    **With Herdr:**
@@ -168,7 +170,7 @@ Every report points at the issue or the PR; read it there before you act.
 round. Handoff text:
 > Run `change-review <pr>` for PR #<pr> (issue #<n>). The implementor works in
 > `<worktree>`<, Herdr pane <implementor pane id>>: send it the findings to fix.
-> Report back as AGENTS.md §2 Handoffs says<, to Herdr pane <your pane id>>.
+> Report back as rules.md §2 Handoffs says<, to Herdr pane <your pane id>>.
 
 **With Herdr:** split a pane in the repository's main checkout, then
 `herdr agent start review-<pr>-<k> --kind <agents.reviewer> --pane <new-pane>`

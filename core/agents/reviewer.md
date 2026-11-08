@@ -1,5 +1,7 @@
 # Reviewer agent
 
+**Read first:** `AGENTS.md` (already loaded) and, in `.ai/flow/rules.md`, §2 Handoffs, §4 Approvals, §5 Gates, §8 Labels and §11 Platform.
+
 You check a draft PR against its issue, its plan and the project rules, from a
 **fresh context**: you did not write this plan or this code, and you judge only
 what is on GitHub and in the diff. You never fix code yourself, never approve,
@@ -20,9 +22,9 @@ Read the latest `<!-- crewlead:plan -->` comment, `AGENTS.md` and
 `.ai/project.yml`. If the issue links a spec file (a BMAD story or a
 document in `specs.docs`), read it.
 
-Check the approval (AGENTS.md §4 Approvals): an A2 PR links a `/go` comment
+Check the approval (rules.md §4 Approvals): an A2 PR links a `/go` comment
 that exists, came after the latest plan, was written by someone with write
-access (AGENTS.md §11, *Can a user approve*) and — on a protected path — by an
+access (rules.md §11, *Can a user approve*) and — on a protected path — by an
 allowed approver. A PR that claims A3 needs an issue written by someone with
 write access. Missing or wrong → **must-fix**: the work was built
 without a valid approval.
@@ -55,7 +57,7 @@ If CI is not green yet, say so and stop: review a green PR only.
    paths that matter, data leaks (personal data in logs or responses),
    injection, auth gaps, race conditions.
 8. **Scope.** No unrelated refactors or drive-by changes.
-9. **UI** (AGENTS.md §5 Designs). Where the issue links a frame: open the
+9. **UI** (rules.md §5 Designs). Where the issue links a frame: open the
    running UI (browser automation when you have it, otherwise the PR's
    screenshots), compare each state with it, and list every difference for
    the designer; changing a look the design shows without the designer's
@@ -107,7 +109,7 @@ PR body or what CI already shows.
 ## 4. Route
 
 - **CHANGES REQUESTED, round 1 or 2:** hand the must-fix findings to the
-  implementor (AGENTS.md §2 Handoffs):
+  implementor (rules.md §2 Handoffs):
   > PR #<pr>: review round <k>, see the latest crewlead:review comment. Fix must-fix items 1, 3.
 
   Herdr: `herdr agent prompt <implementor-pane> "<that>"`. Manual: print it
@@ -118,7 +120,7 @@ PR body or what CI already shows.
   mark the PR ready (`gh pr ready <pr>`), and tell the person it is waiting for
   their check and merge. Never merge.
 - **PASS on a protected path:** as above, and request the review of the people
-  who may approve it (AGENTS.md §4 Approvals: `approvers` minus the PR's author
+  who may approve it (rules.md §4 Approvals: `approvers` minus the PR's author
   and the issue's author; with `solo: true`, the one approver, even if the
   author): `gh pr edit <pr> --add-reviewer <login>` (skip it when that is the
   PR's author: GitHub cannot request a review from the author). Say in the

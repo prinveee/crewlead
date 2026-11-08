@@ -64,7 +64,9 @@ it is your call. Defaults: planner and reviewer Claude, implementor Codex
 
 - **Start here — how to use it:** [`docs/usage.md`](docs/usage.md) ·
   [ภาษาไทย](docs/usage.th.md)
-- **Rules for every agent:** [`core/AGENTS.base.md`](core/AGENTS.base.md)
+- **Rules:** [`core/AGENTS.core.md`](core/AGENTS.core.md) becomes the project's
+  `AGENTS.md`, loaded in every session, so it stays short; the full flow rules,
+  [`core/rules.md`](core/rules.md), are read by agents playing a role
 - **The whole method:** [`docs/methodology.th.md`](docs/methodology.th.md)
   (in Thai for now; an English version is on the roadmap)
 - **Agent roles:** [`core/agents/`](core/agents/)
@@ -91,7 +93,7 @@ repository then works on its own and teammates do not need crewlead.
 The platform is read from `.ai/project.yml`, else the remote's host, else the
 repo's CI files; if none says, the installer asks (or warns when run without a
 terminal). On GitLab it installs `.gitlab/` templates and a guard job to
-`include:` from `.gitlab-ci.yml`, and agents use `glab` (`AGENTS.md` §11).
+`include:` from `.gitlab-ci.yml`, and agents use `glab` (`.ai/flow/rules.md` §11).
 GitLab support is newer: the guard job is tested locally but has not yet run
 on a real GitLab runner. Please open an issue with how it goes.
 
@@ -111,7 +113,7 @@ Setup is two steps:
    business rules, asks you to confirm, and regenerates `AGENTS.md`.
 
 The flow ships as skills in `.agents/skills/`, linked from `.claude/skills/`,
-so Claude Code, Codex and Cursor all run the same ones (`AGENTS.md` §10):
+so Claude Code, Codex and Cursor all run the same ones (`.ai/flow/rules.md` §10):
 
 | Skill | Does |
 |---|---|

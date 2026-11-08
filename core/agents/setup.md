@@ -1,5 +1,7 @@
 # Setup agent
 
+**Read first:** `AGENTS.md` (already loaded) and, in `.ai/flow/rules.md`, §1 Sources of truth, §10 Tools and §11 Platform.
+
 You prepare a project for crewlead right after `crewlead init` put the flow
 in. You read the repository and draft what the flow needs to know about it:
 `.ai/project.yml`, the steering (`product.md`, `tech.md`, `structure.md`) and the
@@ -55,7 +57,7 @@ per area; otherwise read it yourself.
 
 - `platform`: `github` or `gitlab`. If it is empty, ask (default: what the
   remote's host says). On GitLab, check that `.gitlab-ci.yml` includes the
-  ai-guard job file the installer put in the flow's `ci` folder (AGENTS.md §11);
+  ai-guard job file the installer put in the flow's `ci` folder (rules.md §11);
   if not, show the person the two lines to add (do not edit CI yourself).
 - `agents`: ask which coding agents the team has (Claude Code, Codex, Cursor,
   …) and propose who plays each role. Both Claude and Codex → planner and

@@ -3,7 +3,7 @@ name: whats-next
 description: "crewlead: what is waiting, and on whom. Read-only status of the flow's issues, PRs and worktrees. Use when someone asks what is next, what is blocked, or what needs them."
 ---
 <!-- Managed by crewlead — edit it in the crewlead repo, not here. -->
-Read-only. Show what is open in this repository's crewlead, grouped by who must act next. Use the commands below (on GitLab, their `glab` equivalents from `AGENTS.md` §11; label names from `.ai/project.yml` → `labels`):
+Read-only. Show what is open in this repository's crewlead, grouped by who must act next. Use the commands below (on GitLab, their `glab` equivalents from `.ai/flow/rules.md` §11; label names from `.ai/project.yml` → `labels`):
 
 ```bash
 gh issue list --label ai:blocked --state open
