@@ -74,10 +74,14 @@ commit ไฟล์ที่ได้มาใน branch ใหม่แล้�
 ยังไม่มีโค้ดให้อ่าน crew จึงทำความรู้จักโปรเจกต์ด้วยการถามคุณแทน
 
 ```bash
-mkdir my-app && cd my-app && git init
-gh repo create my-app --private --source . --push   # หรือสร้างบน GitLab
+mkdir my-app && cd my-app && git init -b main
+echo "# my-app" > README.md && git add README.md && git commit -m "Start my-app"
+gh repo create my-app --private --source . --push   # หรือสร้างบน GitLab แล้ว push
 crewlead init --labels
 ```
+
+ต้อง commit แรกก่อนรัน `crewlead init` เพราะหลังจากนั้น pre-push hook จะห้าม push
+ตรงเข้า `main` และทุกการเปลี่ยนแปลงต้องผ่าน PR
 
 จากนั้นรัน `/project-setup` ใน agent เมื่อยังไม่มีโค้ด agent จะถามแทนการอ่าน:
 ผลิตภัณฑ์คืออะไร ใครใช้, business rule ที่คุณรู้อยู่แล้ว, และ stack ที่ตั้งใจจะใช้
