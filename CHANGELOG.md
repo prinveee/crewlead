@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.5.2
 - `AGENTS.md` is loaded in every session, so it now holds only what every agent
   follows (language, where things are, Never, Stop and ask) and the steering:
   under 1,000 words of flow rules instead of about 3,300. The rest of the flow
