@@ -317,6 +317,15 @@ gitc -C "$G" reset -q --hard HEAD~1
 printf 'it("a", () => {});\n' > "$G/tests/x.test.ts"; gitc -C "$G" commit -qam drop
 if run_guard; then bad "fewer tests fails"; else ok "fewer tests fails"; fi
 gitc -C "$G" reset -q --hard HEAD~1
+# The base moved on after the PR branched: tests it gained are not the PR's to lose.
+gitc -C "$G" checkout -q -b base-moves "$B"; printf 'it("m", () => {});\n' >> "$G/tests/x.test.ts"; gitc -C "$G" commit -qam "base gains a test"
+MOVED=$(git -C "$G" rev-parse HEAD); gitc -C "$G" checkout -q -b pr-branch "$B"
+echo "doc" > "$G/NOTES.md"; gitc -C "$G" add -A; gitc -C "$G" commit -qm "unrelated change"
+moved_guard() { (cd "$G" && BASE_SHA="$MOVED" HEAD_SHA=HEAD GITHUB_OUTPUT=/dev/null bash "$FLOW/core/guard/guard.sh" >/dev/null 2>&1); }
+if moved_guard; then ok "base gained tests after the branch: PR passes"; else bad "base gained tests after the branch: PR passes"; fi
+printf 'it("a", () => {});\n' > "$G/tests/x.test.ts"; gitc -C "$G" commit -qam "drop b"
+if moved_guard; then bad "base moved, PR drops a test: still fails"; else ok "base moved, PR drops a test: still fails"; fi
+gitc -C "$G" checkout -q main
 echo y >> "$G/src/auth/s.ts"; gitc -C "$G" commit -qam auth; : > "$TMP/out"
 run_guard || true
 check "protected path flags lead review" "grep -qx 'needs_lead_review=true' '$TMP/out'"
