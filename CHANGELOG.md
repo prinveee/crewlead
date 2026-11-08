@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.5.2
 - Planner checks two things before it posts a plan (seen on a real project,
   where each miss cost a re-plan). **Red, then green, can be shown:** every new
   test says which command shows it failing; a test `commands.test_local` does
