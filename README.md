@@ -28,6 +28,11 @@ or GitLab: issues in, draft PRs/MRs out, a person in charge.
   approves, which agent plays which role, your own extra skills and rules.
   Updates never overwrite what is yours.
 
+![crewlead init and check on a small Node project: the files it adds, the commands it detected, and what is left to fill in](docs/demo/demo.gif)
+
+<sub>Real commands, real output (`crewlead init` and `crewlead check` on a throwaway repo, no network).
+Re-render with `vhs docs/demo/demo.tape`.</sub>
+
 **Who does what — the whole team, not only coding**
 
 | Team role | In crewlead |
@@ -67,8 +72,8 @@ it is your call. Defaults: planner and reviewer Claude, implementor Codex
 - **Rules:** [`core/AGENTS.core.md`](core/AGENTS.core.md) becomes the project's
   `AGENTS.md`, loaded in every session, so it stays short; the full flow rules,
   [`core/rules.md`](core/rules.md), are read by agents playing a role
-- **The whole method:** [`docs/methodology.th.md`](docs/methodology.th.md)
-  (in Thai for now; an English version is on the roadmap)
+- **The whole method:** [`docs/methodology.md`](docs/methodology.md) ·
+  [ภาษาไทย](docs/methodology.th.md)
 - **Agent roles:** [`core/agents/`](core/agents/)
 
 ## Install into a project
@@ -166,7 +171,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) and [CHANGELOG.md](CHANGELOG.md).
   implementor / reviewer: add a role (e.g. security reviewer, QA, docs
   writer), give it its own instructions and skill, choose which agent plays
   it, and place it in the flow.
-- English version of the method (`docs/methodology.md`).
 - Screenshots required in PRs that change the UI.
 - Record the design (Figma) version next to its link.
 - `crewlead check` warns when an older `.ai/project.yml` lacks newer settings.
