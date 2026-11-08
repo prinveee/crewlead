@@ -160,6 +160,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) and [CHANGELOG.md](CHANGELOG.md).
 
 ## Roadmap
 
+- **Dispatch.** A no-LLM loop that walks the flow for you: it reads each issue's
+  state and starts the next agent run, while `/go`, answers and merging stay
+  with people. Design for review: [`docs/dispatch.md`](docs/dispatch.md).
 - **Your own crew.** Define your own roles, not only intake / planner /
   implementor / reviewer: add a role (e.g. security reviewer, QA, docs
   writer), give it its own instructions and skill, choose which agent plays
