@@ -51,9 +51,26 @@ Re-render with `vhs docs/demo/demo.tape`.</sub>
   planning into a spec document, splits it into issues, and each issue's
   acceptance criteria come from that spec.
 
+**How it compares**
+
+| | What it is | Where it is stronger | Where the work lives |
+|---|---|---|---|
+| [Spec Kit](https://github.com/github/spec-kit) | GitHub's toolkit for spec-driven development: constitution, specify, plan, tasks, implement | The reference SDD process; many agents supported; a large community; strong from a blank page | Spec files in the repo; one agent runs each step in chat |
+| [BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) | An agile method with a simulated team: analyst, PM, PO, architect, UX, developer | A deep process: brief, PRD, architecture, then epics split into stories | Planning documents and story tickets in the repo |
+| [Agent OS](https://buildermethods.com/agent-os) | Coding standards for AI agents, discovered from your code and injected where needed | Writing down the unwritten conventions of an existing codebase | Standards files; planning is left to the agent's plan mode |
+| [Kiro](https://kiro.dev) | AWS's agentic IDE, CLI and web app, with specs, steering files and hooks | One product with its own models; requirements in EARS; its web agent can take GitHub issues and open PRs | A Kiro account; steering in `.kiro/steering/` |
+| **crewlead** | Rules, roles and skills in your repo, for the agents you already use | Separate roles across vendors, a person at each gate, and your real tracker | Your GitHub or GitLab issues, and draft PRs/MRs |
+
+crewlead borrows Kiro's steering files (`product.md`, `tech.md`, `structure.md`).
+What it adds: the work runs on your own issues and draft PRs/MRs, on GitHub or
+GitLab. Planner, implementor and a fresh-context reviewer are separate roles, and
+each can be a different agent (Claude Code, Codex, Cursor). A person approves each
+plan and merges. Business rules are learned from the repo, each with an ID and a
+source. Small jobs get a light spec; only size L gets a spec document. It is plain
+files: no service, no account.
+
 Not to be confused with CrewAI: that is a framework for writing multi-agent
-programs. crewlead is a way of working: it puts rules, roles and skills into
-your repository so the coding agents you already use work issue by issue.
+programs. crewlead is a way of working, not a library.
 
 ```
 You: "I need X" ─► Intake writes the issue ─► you say yes
