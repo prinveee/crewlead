@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.5.5
+- rules.md §9 *Testing a PR before merge*: the person now tests a PR in the
+  main checkout by default, detached (`git fetch origin && git switch --detach
+  origin/<branch>`, or `gh pr checkout <pr> --detach`), with its running dev
+  servers, `node_modules` and local env files, then switches back to the
+  default branch (seen on a real project, where a worktree preview needed
+  Vite `server.fs.allow`, a second dev server on other ports, and a
+  `.dev.vars` that agents may not copy). Agents never work in the main
+  checkout, so switching it disturbs none of them. `--detach` is required (a
+  plain switch fails: the branch is used by its worktree); uncommitted
+  changes are the person's call, never `git stash`; a migration in the PR is
+  applied by the person and stays in the local database. Testing from the
+  issue's worktree stays as the second way. Agents still never switch or
+  check out in the main checkout.
+
 ## 0.5.4
 - An issue's worktree now has an end (seen on a real project, where merged
   worktrees stayed and `git checkout ai/<n>-…` in the main checkout failed with

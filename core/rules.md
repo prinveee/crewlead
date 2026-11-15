@@ -238,15 +238,37 @@ git worktree remove <worktree>        # never --force: it refuses when something
 git branch -d ai/<n>-<slug>           # "not fully merged" after a squash merge: -D, since the tip is the PR's head
 ```
 
-**Testing a PR before merge.** Run it from the issue's worktree (its own dev
-server, on another port if the main checkout's is running), never by checking
-the branch out in the main checkout: git refuses (`branch is already used by
-worktree`), and switching there would disturb whatever runs in it. Where
-`node_modules` is a symlink to the main checkout's, tools that only serve files
-inside the project need that folder allowed too, or its files are blocked —
-in Vite, `server.fs.allow: [searchForWorkspaceRoot(process.cwd()),
-'<main checkout>/node_modules']` (fonts and other assets from packages fail
-first).
+**Testing a PR before merge** is the person's job, done in one of two ways.
+
+1. **In the main checkout, detached** (the usual way). The main checkout
+   already has the dev servers, `node_modules` and local env files (e.g.
+   `.dev.vars`), and agents never work there, so switching it disturbs none
+   of them:
+
+   ```bash
+   git fetch origin && git switch --detach origin/<branch>   # or: gh pr checkout <pr> --detach
+   # … test with the main checkout's running dev servers …
+   git switch <default_branch>                               # always switch back after
+   ```
+
+   It must be `--detach`: a plain `git switch <branch>` fails (`branch is
+   already used by worktree`). If the main checkout has uncommitted changes
+   git may refuse to switch: the person decides what to do with them, never
+   `git stash` them to make the switch work (AGENTS.md §6). A migration in
+   the PR is not applied by the switch: the person applies it (e.g. `npx
+   supabase migration up --local`), and it stays in the local database after
+   switching back.
+2. **From the issue's worktree.** It needs its own dev server, on other ports
+   if the main checkout's is running, and the local env files, which an agent
+   must not copy in (AGENTS.md §6). Where `node_modules` is a symlink to the
+   main checkout's, tools that only serve files inside the project need that
+   folder allowed too, or its files are blocked — in Vite,
+   `server.fs.allow: [searchForWorkspaceRoot(process.cwd()),
+   '<main checkout>/node_modules']` (fonts and other assets from packages
+   fail first).
+
+This is for the person testing only. An agent never switches or checks out
+anything in the main checkout: it works in the issue's worktree (above).
 
 ## 10. Tools
 
