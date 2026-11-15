@@ -16,6 +16,7 @@ for `gh` and apply as they are. A change request is a **pull request (PR)**.
 | Can a user see the repo | `gh api repos/{owner}/{repo}/collaborators/<user>` (204 = yes) |
 | Can a user approve (write access) | `gh api repos/{owner}/{repo}/collaborators/<user>/permission --jq .permission` → `admin` or `write` = yes; anything else, or an error = no |
 | Change request for a branch | `gh pr list --head <branch>` |
+| Its state and head commit (any state) | `gh pr list --head <branch> --state all --json number,state,headRefOid` (`state`: `OPEN`, `MERGED`, `CLOSED`) |
 | Open a draft change request | `gh pr create --draft --title "<t>" --body-file <f>` |
 | Read it, its diff, its checks | `gh pr view <pr> --comments` · `gh pr diff <pr>` · `gh pr checks <pr>` |
 | Wait for checks / failed log | `gh pr checks <pr> --watch` · `gh run view <run-id> --log-failed` |

@@ -78,7 +78,8 @@ is just a short message saying "look here". Set it with `handoff` in `.ai/projec
 ④ VERIFY     CI + guard (enforced) · CI fails → implementor fixes, ≤3 rounds → still failing → ai:blocked
 ⑤ REVIEW     Reviewer (fresh context): all AC met? matches the plan? tests not weakened? safe?
              Problems → implementor fixes, ≤2 rounds · passes → ai:ready
-⑥ ACCEPT     You try it out and merge → the issue closes itself
+⑥ ACCEPT     You try it out (in its worktree) and merge → the issue closes itself
+             → /whats-next lists the worktree as safe to remove
 ⑦ LEARN      A PR went wrong → add a rule to steering or the guard
 ```
 

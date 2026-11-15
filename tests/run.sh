@@ -318,6 +318,12 @@ echo "planner worktree"
 W=$(new_repo wt); git -C "$W" remote add origin "$W"; git -C "$W" fetch -q origin
 (cd "$W" && git worktree add -q --no-track -b ai/1-x ../wt-ai-1 origin/main)
 check "issue branch does not track the default branch" "[[ -z \$(git -C '$W' config --get branch.ai/1-x.merge || true) ]]"
+# rules.md §9 Worktree lifecycle: a symlinked node_modules blocks removal until it is unlinked
+WT="$TMP/wt-ai-1"; printf 'node_modules/\n' >> "$W/.git/info/exclude"; mkdir -p "$W/node_modules"; ln -s "$W/node_modules" "$WT/node_modules"
+check "a symlinked node_modules shows as untracked" "git -C '$WT' status --porcelain | grep -qx '?? node_modules'"
+check "worktree remove refuses it" "! git -C '$W' worktree remove '$WT' 2>/dev/null"
+rm "$WT/node_modules"
+check "worktree remove works once it is unlinked" "git -C '$W' worktree remove '$WT' && git -C '$W' branch -d ai/1-x >/dev/null"
 
 R3=$(new_repo legacy); mkdir -p "$R3/.ai"; echo old > "$R3/.ai/project-rules.md"
 out=$("$FLOW/bin/crewlead" init "$R3")

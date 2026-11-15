@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.5.4
+- An issue's worktree now has an end (seen on a real project, where merged
+  worktrees stayed and `git checkout ai/<n>-…` in the main checkout failed with
+  "branch is already used by worktree"). rules.md §9 gains *Worktree
+  lifecycle*: the worktree lives until its PR is merged or closed, then it is
+  removed by the person, or by an agent once the person says so. Safe to
+  remove only with nothing uncommitted (a symlinked `node_modules` aside) and
+  the branch tip equal to the PR's head; the commands unlink that symlink
+  first, since git counts it as untracked and `git worktree remove` refuses
+  it. Never `--force`. §11 gains *Its state and head commit* for GitHub and
+  GitLab.
+- `whats-next` lists merged or closed worktrees under **Loose ends** as safe
+  to remove (with the commands to paste) or not safe yet (and why). It still
+  changes nothing itself.
+- rules.md §9: test a PR before merge from its worktree, never by checking the
+  branch out in the main checkout; with a symlinked `node_modules`, Vite's
+  `server.fs.allow` must include the main checkout's `node_modules`.
+
 ## 0.5.3
 - `crewlead check` notices a setting that a later crewlead added to
   `.ai/project.yml` but your file still lacks. `project.yml` is written once, at
