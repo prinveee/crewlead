@@ -1,6 +1,15 @@
 # Changelog
 
 ## 0.5.5
+- An issue's worktree is now created inside the project, at
+  `.worktrees/ai-<n>`, instead of next to it at `../<repo>-ai-<n>` (seen on a
+  real machine, where every project's worktrees piled up as folders beside
+  the projects). The planner adds `.worktrees/` to `.git/info/exclude` first,
+  so the main checkout's `git status` stays clean and the project's
+  `.gitignore` is untouched. rules.md §9 names the location and says that
+  excluding `.worktrees/` from a tool that walks every folder (test runner,
+  linter, watcher) is a project change. Worktrees made the old way keep
+  working and are removed as before.
 - rules.md §9 *Testing a PR before merge*: the person now tests a PR in the
   main checkout by default, detached (`git fetch origin && git switch --detach
   origin/<branch>`, or `gh pr checkout <pr> --detach`), with its running dev

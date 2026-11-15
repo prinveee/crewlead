@@ -316,10 +316,16 @@ check "drift finds a broken skill link" "grep -q 'issue-new: broken link' <<<\"\
 
 echo "planner worktree"
 W=$(new_repo wt); git -C "$W" remote add origin "$W"; git -C "$W" fetch -q origin
-(cd "$W" && git worktree add -q --no-track -b ai/1-x ../wt-ai-1 origin/main)
+# the planner's commands (planner.md, hand off step 1), run twice: the exclude line is added once
+for _ in 1 2; do (cd "$W" && ex="$(git rev-parse --git-common-dir)/info/exclude" && { grep -qxF '.worktrees/' "$ex" || echo '.worktrees/' >> "$ex"; }); done
+(cd "$W" && git worktree add -q --no-track -b ai/1-x .worktrees/ai-1 origin/main)
+WT="$W/.worktrees/ai-1"
+check "worktree is inside the project" "[[ \$(cd '$WT' && pwd -P) == \$(cd '$W' && pwd -P)/.worktrees/ai-1 ]] && git -C '$W' worktree list --porcelain | grep -q '/.worktrees/ai-1\$'"
+check "the exclude line is added once" "[[ \$(grep -cxF '.worktrees/' '$W/.git/info/exclude') == 1 ]]"
+check "main checkout status stays clean" "[[ -z \$(git -C '$W' status --porcelain) ]]"
 check "issue branch does not track the default branch" "[[ -z \$(git -C '$W' config --get branch.ai/1-x.merge || true) ]]"
 # rules.md §9 Worktree lifecycle: a symlinked node_modules blocks removal until it is unlinked
-WT="$TMP/wt-ai-1"; printf 'node_modules/\n' >> "$W/.git/info/exclude"; mkdir -p "$W/node_modules"; ln -s "$W/node_modules" "$WT/node_modules"
+printf 'node_modules/\n' >> "$W/.git/info/exclude"; mkdir -p "$W/node_modules"; ln -s "$W/node_modules" "$WT/node_modules"
 check "a symlinked node_modules shows as untracked" "git -C '$WT' status --porcelain | grep -qx '?? node_modules'"
 check "worktree remove refuses it" "! git -C '$W' worktree remove '$WT' 2>/dev/null"
 rm "$WT/node_modules"
