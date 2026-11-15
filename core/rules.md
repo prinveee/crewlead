@@ -213,6 +213,41 @@ answered on it) removes `ai:blocked` in the step that sets the next state.
   per commit where practical.
 - PRs are opened as **draft** with the repository's PR template filled in.
 
+### Worktree lifecycle
+
+The issue's worktree lives from planning until its PR is **merged or
+closed**, then it is removed. Merging stays a person's job; removing the
+worktree is the person's too, or an agent's once the person says so.
+`whats-next` lists the ones that are safe to remove, with the commands, and
+never removes anything itself.
+
+**Safe to remove** only when all of these hold (§11: *Change request for a
+branch*, *Its state and head commit*):
+- The branch's PR is merged or closed. No PR, or an open one: keep it.
+- Nothing uncommitted: `git -C <worktree> status --porcelain` is empty, apart
+  from a `node_modules` that is a symlink (the main checkout's, linked in to
+  save an install).
+- Nothing unpushed: the branch tip (`git -C <worktree> rev-parse HEAD`) is
+  the PR's head commit.
+
+Then, from the main checkout:
+
+```bash
+[ -L <worktree>/node_modules ] && rm <worktree>/node_modules   # the link only; git counts it as untracked
+git worktree remove <worktree>        # never --force: it refuses when something is left
+git branch -d ai/<n>-<slug>           # "not fully merged" after a squash merge: -D, since the tip is the PR's head
+```
+
+**Testing a PR before merge.** Run it from the issue's worktree (its own dev
+server, on another port if the main checkout's is running), never by checking
+the branch out in the main checkout: git refuses (`branch is already used by
+worktree`), and switching there would disturb whatever runs in it. Where
+`node_modules` is a symlink to the main checkout's, tools that only serve files
+inside the project need that folder allowed too, or its files are blocked —
+in Vite, `server.fs.allow: [searchForWorkspaceRoot(process.cwd()),
+'<main checkout>/node_modules']` (fonts and other assets from packages fail
+first).
+
 ## 10. Tools
 
 These rules and the flow's skills are the same for every coding agent. Each
