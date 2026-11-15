@@ -206,6 +206,11 @@ answered on it) removes `ai:blocked` in the step that sets the next state.
 - One issue → one branch `ai/<issue>-<slug>` → one git worktree → one draft PR.
   Work in the issue's worktree, never in the main checkout (other agents or a
   running dev server may be using it).
+- The worktree is `.worktrees/ai-<issue>` inside the main checkout, never a
+  folder next to the project. `.worktrees/` is ignored through
+  `.git/info/exclude` (the planner adds it). If a project tool walks every
+  folder (a test runner, linter, type checker or file watcher), excluding
+  `.worktrees/` from it is a project change, planned like any other.
 - Create a branch from `origin/<default_branch>` with `--no-track`: otherwise it
   tracks the default branch and a plain `git push` targets it. Push with
   `git push -u origin <branch>`.

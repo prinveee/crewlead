@@ -130,13 +130,19 @@ When you hand off, put the approval in the handoff text: its comment URL, or
 
 To hand off:
 
-1. Create the issue's branch and worktree from the up-to-date default branch:
+1. Create the issue's branch and worktree from the up-to-date default branch,
+   from the main checkout's root:
    ```bash
    git fetch origin
-   git worktree add --no-track -b ai/<n>-<slug> ../<repo>-ai-<n> origin/<default_branch>
+   ex="$(git rev-parse --git-common-dir)/info/exclude"
+   grep -qxF '.worktrees/' "$ex" || echo '.worktrees/' >> "$ex"
+   git worktree add --no-track -b ai/<n>-<slug> .worktrees/ai-<n> origin/<default_branch>
    ```
-   `--no-track` keeps the new branch from tracking the default branch, so a
-   plain `git push` can never target it. If the project needs dependencies
+   The worktree lives inside the project, in `.worktrees/` (rules.md §9), never
+   next to it. The exclude line keeps it out of the main checkout's
+   `git status` without changing the project's `.gitignore`. `--no-track`
+   keeps the new branch from tracking the default branch, so a plain
+   `git push` can never target it. If the project needs dependencies
    installed in a new worktree, the plan's first step says how.
 2. Label: `gh issue edit <n> --add-label ai:implementing --remove-label ai,ai:awaiting-approval,ai:blocked`.
 3. Hand off to the implementor — the agent named by `agents.implementor`
