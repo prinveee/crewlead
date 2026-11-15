@@ -77,7 +77,7 @@ Cursor ใช้ `/issue-plan 12`, Codex ใช้ `$issue-plan 12` (ตาร�
 ④ VERIFY     CI + guard (บังคับ) · CI ไม่ผ่าน → implementor แก้ ≤3 รอบ → ไม่ไหว → ai:blocked
 ⑤ REVIEW     Reviewer (context ใหม่): ครบ AC? ตรงแผน? เทสต์ไม่ถูกทำให้อ่อนลง? ปลอดภัย?
              มีปัญหา → implementor แก้ ≤2 รอบ · ผ่าน → ai:ready
-⑥ ACCEPT     คุณลองใช้ (ใน worktree ของมัน) แล้ว merge → issue ปิดเอง
+⑥ ACCEPT     คุณลองใช้ (main checkout แบบ detached หรือ worktree ของมัน) แล้ว merge → issue ปิดเอง
              → /whats-next บอกว่า worktree ไหนลบได้แล้ว
 ⑦ LEARN      PR ไหนพลาด → เพิ่มกฎใน steering หรือ guard
 ```
