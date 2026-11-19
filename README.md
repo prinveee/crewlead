@@ -98,7 +98,7 @@ it is your call. Defaults: planner and reviewer Claude, implementor Codex
 Get it and put `crewlead` on your PATH once, then use it from inside any repository:
 
 ```bash
-git clone https://github.com/prinveee/crewlead.git && cd crewlead
+git clone https://github.com/unjito/crewlead.git && cd crewlead
 mkdir -p ~/.local/bin && ln -s "$PWD/bin/crewlead" ~/.local/bin/crewlead
 crewlead version   # "command not found"? put ~/.local/bin on your PATH:
                    #   echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc   (bash: ~/.bashrc)

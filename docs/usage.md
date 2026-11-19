@@ -25,7 +25,7 @@ least one coding agent (Claude Code, Codex CLI or Cursor). It runs on macOS
 and Linux; on Windows, use WSL2.
 
 ```bash
-git clone https://github.com/prinveee/crewlead.git && cd crewlead
+git clone https://github.com/unjito/crewlead.git && cd crewlead
 mkdir -p ~/.local/bin && ln -s "$PWD/bin/crewlead" ~/.local/bin/crewlead
 crewlead version   # "command not found"? put ~/.local/bin on your PATH:
                    #   echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc   (bash: ~/.bashrc)

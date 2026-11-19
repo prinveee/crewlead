@@ -25,7 +25,7 @@
 ใช้ได้บน macOS และ Linux ส่วน Windows ให้ใช้ผ่าน WSL2
 
 ```bash
-git clone https://github.com/prinveee/crewlead.git && cd crewlead
+git clone https://github.com/unjito/crewlead.git && cd crewlead
 mkdir -p ~/.local/bin && ln -s "$PWD/bin/crewlead" ~/.local/bin/crewlead
 crewlead version   # ขึ้น "command not found"? เพิ่ม ~/.local/bin เข้า PATH:
                    #   echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc   (bash: ~/.bashrc)
